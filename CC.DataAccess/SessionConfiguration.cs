@@ -1,5 +1,6 @@
-﻿using System.Data.Entity.ModelConfiguration;
+﻿
 using CC.Model;
+using System.Data.Entity.ModelConfiguration;
 
 namespace CC.DataAccess
 {

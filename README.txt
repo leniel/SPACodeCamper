@@ -39,12 +39,25 @@ Updating the NuGet packages above will take care of bumping System.Web.Http's ve
 
 4 - Additional NuGet Packages I updated by myself (there was no need to update though)
 
-- jQuery from 2.0.3 to 2.1.0
+CC.Web
+- jQuery from 2.0.3 to 2.1.1
 - Json.NET from 4.5.11 to 6.0.3
+- moment from 2.5.0 to 2.6.0
+- bootstrap from 3.0.3 to 3.1.1
+- Microsoft.SqlServer.Compact from 4.0.8854.1 to 4.0.8876.1
+- toastr from 2.0.1 to 2.0.2
+- spin.js from 1.3 to 2.0
+
+CC.DataAccess
+- EntityFramework from 6.0.1 to 6.1.0
+- Json.NET from 5.0.8 to 6.0.3
+
+CC.Model
+- Json.NET from 5.0.6 to 6.0.3
 
 Make sure you also update the scripts references in index.html to:
 
-<script src="scripts/jquery-2.1.0.js"></script>
+<script src="scripts/jquery-2.1.1.js"></script>
 
 
 5 - breeze.core.extendQ not available on step 4.10

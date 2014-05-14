@@ -1,4 +1,4 @@
-﻿(function () {
+﻿(function() {
     'use strict';
 
     var app = angular.module('app');
@@ -10,6 +10,12 @@
     // For use with the HotTowel-Angular-Breeze add-on that uses Breeze
     var remoteServiceName = 'breeze/Breeze';
 
+    var imageSettings =
+    {
+        imageBasePath: '../content/images/photos/',
+        unknownPersonImageSource: 'unknown_person.jpg'
+    }
+
     var events = {
         controllerActivateSuccess: 'controller.activateSuccess',
         spinnerToggle: 'spinner.toggle'
@@ -20,6 +26,7 @@
         docTitle: 'CodeCamper: ',
         events: events,
         remoteServiceName: remoteServiceName,
+        imageSettings: imageSettings,
         version: '2.1.0'
     };
 

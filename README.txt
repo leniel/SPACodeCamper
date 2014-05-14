@@ -70,3 +70,30 @@ return EntityQuery.from('Sessions')
     .then(querySucceeded, _queryFailed);
 
 Get rid of breeze.to$q.shim.js from index.html and delete the file from the \Scripts folder in the project since it's not needed anymore.
+
+
+6 - In sessions.html, change
+
+<img data-cc-img-person="{{s.speaker.imageSource}}" class="img-polaroid user-pic" />
+                          
+to
+
+<img data-cc-img-person="{{s.speaker.imageSource}}" class="img-thumbnail user-pic" />
+
+img-thumbnail CSS class adds that nice border to the image.
+
+
+7 - In sessions.html on step 5.9, change 
+
+<small class="right hidden-phone">{{s.code}}</small>
+
+to
+
+<small class="right hidden-xs hidden-sm">{{s.code}}</small>
+
+In Bootstrap 3 the responsive utilities were revamped. Now the class names are hidden-xs and hidden-sm for small screen devices.
+
+More details here: http://getbootstrap.com/css/#responsive-utilities
+
+
+8 - 

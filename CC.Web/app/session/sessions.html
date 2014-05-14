@@ -8,14 +8,15 @@
                     <div class="widget-content user">
                         <div class="padd" data-ng-repeat="s in vm.sessions">
                             <div class="user">
-                                <img ng-src="{{s.speaker.imageSource}}" class="img-polaroid user-pic" />
+                                <img data-cc-img-person="{{s.speaker.imageSource}}" class="img-thumbnail user-pic" />
                                 <div class="user-details">
                                     <small>{{s.timeSlot.name}}</small> at <small>{{s.room.name}}</small>
-                                    <small>{{s.level}}</small>
-                                    <small>{{s.track.name}}</small>
-                                    <small>{{s.code}}</small>
+                                    <small class="right hidden-xs hidden-sm">{{s.level}}</small>
+                                    <small class="right hidden-xs hidden-sm">{{s.track.name}}</small>
+                                    <small class="right hidden-xs hidden-sm">{{s.code}}</small>
                                     <h3>{{s.title}}</h3>
-                                    <h6>{{s.speaker.firstName}} {{s.speaker.lastName}}</h6>
+                                    <h6>{{s.speaker.fullName}}</h6>
+                                    <small class="text-subtle hidden-xs hidden-sm">{{s.tagsFormatted}}</small>
                                 </div>
                             </div>
                         </div>

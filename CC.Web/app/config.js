@@ -16,8 +16,8 @@
     };
 
     var config = {
-        appErrorPrefix: '[HT Error] ', //Configure the exceptionHandler decorator
-        docTitle: 'HotTowel: ',
+        appErrorPrefix: '[CodeCamper Error] ', //Configure the exceptionHandler decorator
+        docTitle: 'CodeCamper: ',
         events: events,
         remoteServiceName: remoteServiceName,
         version: '2.1.0'

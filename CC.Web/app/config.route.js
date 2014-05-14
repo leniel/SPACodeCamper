@@ -1,23 +1,27 @@
-﻿(function () {
+﻿(function()
+{
     'use strict';
 
     var app = angular.module('app');
 
     // Collect the routes
     app.constant('routes', getRoutes());
-    
+
     // Configure the routes and route resolvers
     app.config(['$routeProvider', 'routes', routeConfigurator]);
-    function routeConfigurator($routeProvider, routes) {
+    function routeConfigurator($routeProvider, routes)
+    {
 
-        routes.forEach(function (r) {
+        routes.forEach(function(r)
+        {
             $routeProvider.when(r.url, r.config);
         });
         $routeProvider.otherwise({ redirectTo: '/' });
     }
 
     // Define the routes 
-    function getRoutes() {
+    function getRoutes()
+    {
         return [
             {
                 url: '/',
@@ -37,6 +41,16 @@
                     settings: {
                         nav: 2,
                         content: '<i class="fa fa-lock"></i> Admin'
+                    }
+                }
+            }, {
+                url: '/sessions',
+                config: {
+                    title: 'sessions',
+                    templateUrl: 'app/session/sessions.html',
+                    settings: {
+                        nav: 3,
+                        content: '<i class="fa fa-calendar"></i> Sessions'
                     }
                 }
             }

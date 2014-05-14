@@ -26,6 +26,7 @@
                 serviceName: serviceName,
                 metadataStore: metadataStore
             });
+
             return mgr;
         }
     }

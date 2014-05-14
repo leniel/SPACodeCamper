@@ -2,7 +2,7 @@ Course available at Pluralsight: http://pluralsight.com/training/Courses/TableOf
 
 I'm doing the course using Visual Studio 2013 Update 2...
 
-In this file I describe some errors I got in Visual Studio and how I solved them algon the way.
+In this file I describe some errors I got in Visual Studio and how I solved them along the way.
 
 There are some things/NuGet packages changed since the course went live on Pluralsight on 10/22/2013:  
 
@@ -45,3 +45,28 @@ Updating the NuGet packages above will take care of bumping System.Web.Http's ve
 Make sure you also update the scripts references in index.html to:
 
 <script src="scripts/jquery-2.1.0.js"></script>
+
+
+5 - breeze.core.extendQ not available on step 4.10
+
+Check this StackOverflow question: http://stackoverflow.com/q/22118797/114029
+
+In app.js pass the breeze dependency directly:
+
+// Handle routing errors and success events
+// Trigger breeze configuration
+app.run(['$route', 'breeze', function($route, breeze)
+{
+    // Include $route to kick start the router.
+}]);
+
+In datacontext.js do:
+
+return EntityQuery.from('Sessions')
+    .select('id, title, code, speakerId, trackId, timeSlotId, roomId, level, tags')
+    .orderBy(orderBy)
+    .toType('Session')
+    .using(manager).execute()
+    .then(querySucceeded, _queryFailed);
+
+Get rid of breeze.to$q.shim.js from index.html and delete the file from the \Scripts folder in the project since it's not needed anymore.

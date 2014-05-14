@@ -146,6 +146,8 @@
     <Content Include="app\services\datacontext.js" />
     <Content Include="app\services\directives.js" />
     <Content Include="app\services\entityManagerFactory.js" />
+    <Content Include="app\session\sessions.html" />
+    <Content Include="app\session\sessions.js" />
     <Content Include="App_Data\.gitignore" />
     <Content Include="content\bootstrap-theme.css" />
     <Content Include="content\bootstrap-theme.min.css" />
@@ -235,7 +237,6 @@
     <Content Include="Scripts\breeze.directives.validation.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\breeze.saveErrorExtensions.js" />
-    <Content Include="Scripts\breeze.to%24q.shim.js" />
     <Content Include="Scripts\q.js" />
     <Content Include="Scripts\q.min.js">
       <DependentUpon>q.js</DependentUpon>
@@ -316,6 +317,7 @@
     <Content Include="Scripts\ui-bootstrap-tpls-0.10.0.min.js">
       <DependentUpon>ui-bootstrap-tpls-0.10.0.js</DependentUpon>
     </Content>
+    <None Include="Scripts\_references.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

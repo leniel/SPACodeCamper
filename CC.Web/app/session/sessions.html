@@ -1,0 +1,30 @@
+﻿<section class="mainbar" data-ng-controller="sessions as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="widget worange">
+                    <div data-cc-widget-header title="{{vm.title}}"
+                         subtitle="{{vm.sessions.length}}"></div>
+                    <div class="widget-content user">
+                        <div class="padd" data-ng-repeat="s in vm.sessions">
+                            <div class="user">
+                                <img ng-src="{{s.speaker.imageSource}}" class="img-polaroid user-pic" />
+                                <div class="user-details">
+                                    <small>{{s.timeSlot.name}}</small> at <small>{{s.room.name}}</small>
+                                    <small>{{s.level}}</small>
+                                    <small>{{s.track.name}}</small>
+                                    <small>{{s.code}}</small>
+                                    <h3>{{s.title}}</h3>
+                                    <h6>{{s.speaker.firstName}} {{s.speaker.lastName}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-foot">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

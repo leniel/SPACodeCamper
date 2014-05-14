@@ -8,7 +8,7 @@
             display: none!important;
         }
     </style>
-    <title data-ng-bind="title">Hot Towel Angular</title>
+    <title data-ng-bind="title">CodeCamper Angular-Breeze</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
@@ -22,6 +22,8 @@
             document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
         }
     </script>
+
+    <link rel="shortcut icon" href="ccfavicon.ico" />
 
     <link href="content/ie10mobile.css" rel="stylesheet" />
     <link href="content/bootstrap.min.css" rel="stylesheet" />
@@ -39,7 +41,7 @@
         <div id="splash-page" data-ng-show="false">
             <div class="page-splash">
                 <div class="page-splash-message">
-                    Hot Towel Angular
+                   CodeCamper Angular-Breeze
                 </div>
                 <div class="progress progress-striped active page-progress-bar">
                     <div class="bar"></div>
@@ -75,7 +77,6 @@
     <script src="scripts/breeze.angular.js"></script>
     <script src="scripts/breeze.directives.validation.js"></script>
     <script src="scripts/breeze.saveErrorExtensions.js"></script>
-    <script src="scripts/breeze.to$q.shim.js"></script> <!-- Needed only if you are using to$q -->
     <!-- #endregion -->
     <!-- #endregion -->
     <!-- #region Bootstrapping -->
@@ -95,6 +96,7 @@
     <!-- #region app -->
     <script src="app/admin/admin.js"></script>
     <script src="app/dashboard/dashboard.js"></script>
+    <script src="app/session/sessions.js"></script>
     <script src="app/layout/shell.js"></script>
     <script src="app/layout/sidebar.js"></script>
     <!-- #endregion -->

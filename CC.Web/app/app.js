@@ -1,6 +1,7 @@
-﻿(function () {
+﻿(function()
+{
     'use strict';
-    
+
     var app = angular.module('app', [
         // Angular modules 
         'ngAnimate',        // animations
@@ -16,10 +17,11 @@
         'breeze.directives', // contains the breeze validation directive (zValidate)
         'ui.bootstrap'       // ui-bootstrap (ex: carousel, pagination, dialog)
     ]);
-    
+
     // Handle routing errors and success events
     // Trigger breeze configuration
-    app.run(['$route',  function ($route) {
-            // Include $route to kick start the router.
-        }]);        
+    app.run(['$route', 'breeze', function($route, breeze)
+    {
+        // Include $route to kick start the router.
+    }]);
 })();

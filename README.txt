@@ -47,6 +47,12 @@ CC.Web
 - Microsoft.SqlServer.Compact from 4.0.8854.1 to 4.0.8876.1
 - toastr from 2.0.1 to 2.0.2
 - spin.js from 1.3 to 2.0
+- AngularJS.Core from 1.2.9 to 1.2.16
+- AngularJS.Route from 1.2.9 to 1.2.16
+- AngularJS.Animate from 1.2.9 to 1.2.16
+- AngularJS.Sanitize from 1.2.9 to 1.2.16
+- Breeze.Angular from 0.8.3 to 0.8.5
+- Breeze.Angular.Directives from 1.3.2 to 1.3.6
 
 CC.DataAccess
 - EntityFramework from 6.0.1 to 6.1.0
@@ -55,9 +61,16 @@ CC.DataAccess
 CC.Model
 - Json.NET from 5.0.6 to 6.0.3
 
+
 Make sure you also update the scripts references in index.html to:
 
 <script src="scripts/jquery-2.1.1.js"></script>
+
+and
+
+<script src="scripts/breeze.directives.js"></script> instead of
+
+<script src="scripts/breeze.directives.validation.js"></script>
 
 
 5 - breeze.core.extendQ not available on step 4.10
@@ -109,4 +122,26 @@ In Bootstrap 3 the responsive utilities were revamped. Now the class names are h
 More details here: http://getbootstrap.com/css/#responsive-utilities
 
 
-8 - 
+8 - Installed Angular.UI.Bootstrap NuGet package to get automatic updates. So get rid of this file \Scripts\ui-bootstrap-tpls-0.10.0.js that had been previously added manually to the project.
+
+These are the new files to be added in index.html:
+
+ <script src="scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+ <script src="scripts/angular-ui/ui-bootstrap.js"></script>
+
+
+9 - Changed progress bar code in index.html from
+
+<div class="progress progress-striped active page-progress-bar">
+        <div class="bar"></div>
+</div>
+
+to
+
+<div class="progress progress-striped active page-progress-bar">
+    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+    </div>
+</div>
+
+
+10 - 

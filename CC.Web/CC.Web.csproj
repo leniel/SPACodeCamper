@@ -125,9 +125,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\admin\admin.html" />
-    <Content Include="app\admin\admin.js" />
     <Content Include="app\app.js" />
+    <Content Include="app\attendee\attendees.html" />
+    <Content Include="app\attendee\attendees.js" />
     <Content Include="app\common\bootstrap\bootstrap.dialog.js" />
     <Content Include="app\common\common.js" />
     <Content Include="app\common\logger.js" />
@@ -149,21 +149,31 @@
     <Content Include="app\services\model.js" />
     <Content Include="app\session\sessions.html" />
     <Content Include="app\session\sessions.js" />
+    <Content Include="app\speaker\speakers.html" />
+    <Content Include="app\speaker\speakers.js" />
     <Content Include="App_Data\.gitignore" />
     <Content Include="content\bootstrap-theme.css" />
-    <Content Include="content\bootstrap-theme.min.css" />
+    <Content Include="content\bootstrap-theme.min.css">
+      <DependentUpon>bootstrap-theme.css</DependentUpon>
+    </Content>
     <Content Include="content\bootstrap.css" />
-    <Content Include="content\bootstrap.min.css" />
+    <Content Include="content\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
     <Content Include="content\breeze.directives.css" />
     <Content Include="content\customtheme.css" />
     <Content Include="content\font-awesome.css" />
-    <Content Include="content\font-awesome.min.css" />
+    <Content Include="content\font-awesome.min.css">
+      <DependentUpon>font-awesome.css</DependentUpon>
+    </Content>
     <Content Include="content\ie10mobile.css" />
     <Content Include="content\images\AngularJS-small.png" />
     <Content Include="content\images\breezelogo.png" />
     <Content Include="content\styles.css" />
     <Content Include="content\toastr.css" />
-    <Content Include="content\toastr.min.css" />
+    <Content Include="content\toastr.min.css">
+      <DependentUpon>toastr.css</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\fontawesome-webfont.woff" />
@@ -173,7 +183,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="index.html" />
     <Content Include="packages.config" />
-    <Content Include="content\toastr.less" />
+    <Content Include="content\toastr.less">
+      <DependentUpon>toastr.css</DependentUpon>
+    </Content>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -181,6 +193,7 @@
     <Content Include="Scripts\angular-animate.min.js">
       <DependentUpon>angular-animate.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular-route.min.js">
       <DependentUpon>angular-route.js</DependentUpon>
@@ -189,28 +202,43 @@
     <Content Include="Scripts\angular-sanitize.min.js">
       <DependentUpon>angular-sanitize.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js">
       <DependentUpon>angular.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\breeze.angular.js" />
+    <Content Include="Scripts\breeze.directives.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.map">
+      <DependentUpon>jquery-2.1.1.min.js</DependentUpon>
+    </Content>
+    <Content Include="content\bootstrap.css.map">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="content\bootstrap-theme.css.map">
+      <DependentUpon>bootstrap-theme.css</DependentUpon>
+    </Content>
+    <Content Include="content\toastr.scss">
+      <DependentUpon>toastr.css</DependentUpon>
+    </Content>
     <Content Include="Scripts\angular.min.js.map">
       <DependentUpon>angular.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\angular-route.min.js.map">
-      <DependentUpon>angular-route.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\angular-animate.min.js.map">
-      <DependentUpon>angular-animate.min.js</DependentUpon>
     </Content>
     <Content Include="Scripts\angular-sanitize.min.js.map">
       <DependentUpon>angular-sanitize.min.js</DependentUpon>
     </Content>
-    <None Include="Scripts\jquery-2.1.0.intellisense.js">
-      <DependentUpon>jquery-2.1.0.js</DependentUpon>
-    </None>
-    <Content Include="Scripts\jquery-2.1.0.js" />
-    <Content Include="Scripts\jquery-2.1.0.min.js" />
-    <Content Include="Scripts\jquery-2.1.0.min.map" />
+    <Content Include="Scripts\angular-animate.min.js.map">
+      <DependentUpon>angular-animate.min.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\angular-route.min.js.map">
+      <DependentUpon>angular-route.min.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\spin.min.js.map">
+      <DependentUpon>spin.min.js</DependentUpon>
+    </Content>
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -227,17 +255,21 @@
     <None Include="_bin_deployableAssemblies\amd64\sqlceca40.dll" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
-    <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js">
       <DependentUpon>bootstrap.js</DependentUpon>
     </Content>
     <None Include="Scripts\breeze.intellisense.js" />
-    <Content Include="Scripts\breeze.angular.js" />
     <Content Include="Scripts\breeze.debug.js" />
-    <Content Include="Scripts\breeze.directives.validation.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\breeze.saveErrorExtensions.js" />
+    <None Include="Scripts\jquery-2.1.1.intellisense.js">
+      <DependentUpon>jquery-2.1.1.js</DependentUpon>
+    </None>
+    <Content Include="Scripts\jquery-2.1.1.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.js">
+      <DependentUpon>jquery-2.1.1.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\q.js" />
     <Content Include="Scripts\q.min.js">
       <DependentUpon>q.js</DependentUpon>
@@ -313,10 +345,6 @@
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js">
       <DependentUpon>spin.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\ui-bootstrap-tpls-0.10.0.js" />
-    <Content Include="Scripts\ui-bootstrap-tpls-0.10.0.min.js">
-      <DependentUpon>ui-bootstrap-tpls-0.10.0.js</DependentUpon>
     </Content>
     <None Include="Scripts\_references.js" />
     <Content Include="Web.config" />

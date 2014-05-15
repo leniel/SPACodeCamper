@@ -4,8 +4,9 @@
     <style>
         /* This helps the ng-show/ng-hide animations start at the right place. */
         /* Since Angular has this but needs to load, this gives us the class early. */
-        .ng-hide {
-            display: none!important;
+        .ng-hide
+        {
+            display: none !important;
         }
     </style>
     <title data-ng-bind="title">CodeCamper Angular-Breeze</title>
@@ -15,7 +16,8 @@
 
     <script>
         // Must be first. IE10 mobile viewport fix
-        if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+        if("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/))
+        {
             var msViewportStyle = document.createElement("style");
             var mq = "@-ms-viewport{width:auto!important}";
             msViewportStyle.appendChild(document.createTextNode(mq));
@@ -31,7 +33,6 @@
     <link href="content/toastr.css" rel="stylesheet" />
     <link href="content/customtheme.css" rel="stylesheet">
     <link href="content/styles.css" rel="stylesheet" />
-
     <link href="content/breeze.directives.css" rel="stylesheet" />
 
 </head>
@@ -41,11 +42,14 @@
         <div id="splash-page" data-ng-show="false">
             <div class="page-splash">
                 <div class="page-splash-message">
-                   CodeCamper Angular-Breeze
+                    CodeCamper Angular-Breeze
                 </div>
+
                 <div class="progress progress-striped active page-progress-bar">
-                    <div class="bar"></div>
+                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -68,14 +72,15 @@
 
     <script src="scripts/moment.js"></script>
 
-    <script src="scripts/ui-bootstrap-tpls-0.10.0.js"></script>
+    <script src="scripts/angular-ui/ui-bootstrap.js"></script>
+    <script src="scripts/angular-ui/ui-bootstrap-tpls.js"></script>
 
     <script src="scripts/spin.js"></script>
 
     <!-- #region Breeze -->
     <script src="scripts/breeze.debug.js"></script>
     <script src="scripts/breeze.angular.js"></script>
-    <script src="scripts/breeze.directives.validation.js"></script>
+    <script src="scripts/breeze.directives.js"></script>
     <script src="scripts/breeze.saveErrorExtensions.js"></script>
     <!-- #endregion -->
     <!-- #endregion -->
@@ -94,9 +99,10 @@
     <script src="app/common/bootstrap/bootstrap.dialog.js"></script>
     <!-- #endregion -->
     <!-- #region app -->
-    <script src="app/admin/admin.js"></script>
     <script src="app/dashboard/dashboard.js"></script>
     <script src="app/session/sessions.js"></script>
+    <script src="app/speaker/speakers.js"></script>
+    <script src="app/attendee/attendees.js"></script>
     <script src="app/layout/shell.js"></script>
     <script src="app/layout/sidebar.js"></script>
     <!-- #endregion -->

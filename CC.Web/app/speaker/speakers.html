@@ -1,0 +1,28 @@
+﻿<section class="mainbar" data-ng-controller="speakers as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="widget wviolet">
+                    <div data-cc-widget-header title="{{vm.title}}"
+                         subtitle="{{vm.speakers.length}}"></div>
+                    <div class="widget-content user">
+                        <div class="padd list-flow" data-ng-repeat="s in vm.speakers">
+                            <div class="user">
+
+                                <img data-cc-img-person="{{s.imageSource}}"
+                                     class="img-thumbnail stacked" />
+                                <div class="name-stack">
+                                    <h5>{{s.firstName}}</h5>
+                                    <h5>{{s.lastName}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-foot">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

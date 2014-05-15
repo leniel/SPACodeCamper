@@ -32,6 +32,7 @@
             getPeople: getPeople,
             getMessageCount: getMessageCount,
             getSpeakerPartials: getSpeakerPartials,
+            getAttendees: getAttendees,
             getSessionPartials: getSessionPartials,
             prime: prime,
         };
@@ -52,6 +53,28 @@
                 { firstName: 'Haley', lastName: 'Guthrie', age: 35, location: 'Wyoming' }
             ];
             return $q.when(people);
+        }
+
+        function getAttendees()
+        {
+            var orderBy = 'firstName, lastName';
+            var attendees = [];
+
+            return EntityQuery.from('Persons')
+            .select('id, firstName, lastName, imageSource')
+            .orderBy(orderBy)
+            .toType('Person')
+             .using(manager).execute()
+                .then(querySucceeded, _queryFailed);
+
+            function querySucceeded(data)
+            {
+                attendees = data.results;
+
+                log('Retrieved [Attendees] from remote data source', attendees.length, true);
+
+                return attendees;
+            }
         }
 
         function getSpeakerPartials()
@@ -147,7 +170,8 @@
                 });
 
                 var personEntityName = entityNames.person;
-                ['Speakers', 'Speaker', 'Attendees', 'Attendee'].forEach(function(r) {
+                ['Speakers', 'Speaker', 'Attendees', 'Attendee'].forEach(function(r)
+                {
 
                     set(r, personEntityName);
                 });
@@ -180,7 +204,6 @@
                     .orderBy(ordering).using(manager).executeLocally();
             }
         }
-
 
     }
 })();

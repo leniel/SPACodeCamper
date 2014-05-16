@@ -5,7 +5,8 @@
                 <div class="form-search">
                     <div class="col-lg-4">
                         <input class="form-control search-query"
-                               data-ng-model="vm.speakerSearch.firstName"
+                               data-ng-model="vm.speakerSearch"
+                               data-ng-keyup="vm.search($event)"
                                placeholder="live search..." />
                     </div>
                     <div class="btn-group pull-right">
@@ -18,9 +19,9 @@
             <div class="row">
                 <div class="widget wviolet">
                     <div data-cc-widget-header title="{{vm.title}}"
-                         subtitle="{{vm.speakers.length}}"></div>
+                         subtitle="{{vm.filteredSpeakers.length}} / {{vm.speakers.length}}"></div>
                     <div class="widget-content user">
-                        <div class="padd list-flow" data-ng-repeat="s in vm.speakers | filter: vm.speakerSearch">
+                        <div class="padd list-flow" data-ng-repeat="s in vm.filteredSpeakers">
                             <div class="user">
 
                                 <img data-cc-img-person="{{s.imageSource}}"

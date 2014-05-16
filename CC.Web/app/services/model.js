@@ -5,10 +5,22 @@
 
     angular.module('app').factory(serviceId, model);
 
-    function model() {
+    function model()
+    {
+        var entityNames = {
+            attendee: 'Person',
+            person: 'Person',
+            speaker: 'Person',
+            session: 'Session',
+            room: 'Room',
+            track: 'Track',
+            timeslot: 'TimeSlot'
+        }
+
         // Define the functions and properties to reveal.
         var service = {
-           configureMetadataStore: configureMetadataStore
+            configureMetadataStore: configureMetadataStore,
+            entityNames : entityNames
         };
 
         return service;
@@ -25,7 +37,9 @@
         {
             metadataStore.registerEntityTypeCtor('Person', Person);
 
-            function Person() { };
+            function Person() {
+                this.isSpeaker = false;
+            };
 
             Object.defineProperty(Person.prototype, 'fullName', {
                 get: function() {

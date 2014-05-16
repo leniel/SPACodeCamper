@@ -3,30 +3,27 @@
     'use strict';
 
     var serviceId = 'datacontext';
-    angular.module('app').factory(serviceId, ['common', 'config', 'entityManagerFactory', datacontext]);
+    angular.module('app').factory(serviceId, ['common', 'config', 'entityManagerFactory', 'model', datacontext]);
 
-    function datacontext(common, config, emFactory)
+    function datacontext(common, config, emFactory, model)
     {
         var EntityQuery = breeze.EntityQuery;
+        var entityNames = model.entityNames;
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(serviceId);
         var logError = getLogFn(serviceId, 'error');
         var logSuccess = getLogFn(serviceId, 'success');
         var manager = emFactory.newManager();
+        var $q = common.$q;
 
         var primePromise;
 
-        var entityNames = {
-            atendee: 'Person',
-            person: 'Person',
-            speaker: 'Pearson',
-            session: 'Session',
-            room: 'Room',
-            track: 'Track',
-            timeslot: 'TimeSlot'
+        var storeMeta = {
+            isLoaded: {
+                sessions: false,
+                attendees: false
+            }
         }
-
-        var $q = common.$q;
 
         var service = {
             getPeople: getPeople,
@@ -55,59 +52,22 @@
             return $q.when(people);
         }
 
-        function getAttendees()
-        {
-            var orderBy = 'firstName, lastName';
-            var attendees = [];
-
-            return EntityQuery.from('Persons')
-            .select('id, firstName, lastName, imageSource')
-            .orderBy(orderBy)
-            .toType('Person')
-             .using(manager).execute()
-                .then(querySucceeded, _queryFailed);
-
-            function querySucceeded(data)
-            {
-                attendees = data.results;
-
-                log('Retrieved [Attendees] from remote data source', attendees.length, true);
-
-                return attendees;
-            }
-        }
-
-        function getSpeakerPartials()
-        {
-            var speakerOrderBy = 'firstName, lastName';
-            var speakers = [];
-
-            return EntityQuery.from('Speakers')
-            .select('id, firstName, lastName, imageSource')
-            .orderBy(speakerOrderBy)
-            .toType('Person')
-             .using(manager).execute()
-                .then(querySucceeded, _queryFailed);
-
-            function querySucceeded(data)
-            {
-                speakers = data.results;
-
-                log('Retrieved [Speakers Partials] from remote data source', speakers.length, true);
-
-                return speakers;
-            }
-        }
-
-        function getSessionPartials()
+        function getSessionPartials(forceRefresh)
         {
             var orderBy = 'timeSlotId, level, speaker.firstName';
             var sessions;
 
+            if(_areSessionsLoaded() && !forceRefresh)
+            {
+                sessions = _getAllLocal(entityNames.session, orderBy);
+
+                return $q.when(sessions);
+            }
+
             return EntityQuery.from('Sessions')
                 .select('id, title, code, speakerId, trackId, timeSlotId, roomId, level, tags')
                 .orderBy(orderBy)
-                .toType('Session')
+                .toType(entityNames.session)
                 .using(manager).execute()
                 .then(querySucceeded, _queryFailed);
 
@@ -115,9 +75,75 @@
             {
                 sessions = data.results;
 
+                _areSessionsLoaded(true);
+
                 log('Retrieved [Session Partials] from remote data source', sessions.length, true);
 
                 return sessions;
+            }
+        }
+
+        function getSpeakerPartials(forceRefresh) {
+            var predicate = breeze.Predicate.create('isSpeaker', "==", true);
+            var orderBy = 'firstName, lastName';
+            var speakers = [];
+
+            if(!forceRefresh)
+            {
+                speakers = _getAllLocal(entityNames.speaker, orderBy, predicate);
+
+                return $q.when(speakers);
+            }
+
+            return EntityQuery.from('Speakers')
+            .select('id, firstName, lastName, imageSource')
+            .orderBy(orderBy)
+            .toType(entityNames.speaker)
+             .using(manager).execute()
+                .then(querySucceeded, _queryFailed);
+
+            function querySucceeded(data)
+            {
+                speakers = data.results;
+
+                for (var i = speakers.length; i--;) {
+                    speakers[i].isSpeaker = true;
+                }
+
+                log('Retrieved [Speakers Partials] from remote data source', speakers.length, true);
+
+                return speakers;
+            }
+        }
+
+        function getAttendees(forceRefresh)
+        {
+            var orderBy = 'firstName, lastName';
+            var attendees = [];
+
+            if(_areAttendeesLoaded() && !forceRefresh)
+            {
+                attendees = _getAllLocal(entityNames.attendee, orderBy);
+
+                return $q.when(attendees);
+            }
+
+            return EntityQuery.from('Persons')
+            .select('id, firstName, lastName, imageSource')
+            .orderBy(orderBy)
+            .toType(entityNames.attendee)
+             .using(manager).execute()
+                .then(querySucceeded, _queryFailed);
+
+            function querySucceeded(data)
+            {
+                attendees = data.results;
+
+                _areAttendeesLoaded(true);
+
+                log('Retrieved [Attendees] from remote data source', attendees.length, true);
+
+                return attendees;
             }
         }
 
@@ -135,15 +161,6 @@
             }
         }
 
-        function _queryFailed(error)
-        {
-            var msg = config.appErrorPrefix + 'Error retrieving data.' + error.message;
-
-            logError(msg, error);
-
-            throw error;
-        }
-
         function prime()
         {
             if(primePromise)
@@ -151,7 +168,7 @@
                 return primePromise;
             }
 
-            primePromise = $q.all([getLookups(), getSpeakerPartials()])
+            primePromise = $q.all([getLookups(), getSpeakerPartials(true)])
 .then(extendMetadata)
 .then(success);
 
@@ -198,12 +215,44 @@
                 };
             }
 
-            function _getAllLocal(resource, ordering)
-            {
-                return EntityQuery.from(resource)
-                    .orderBy(ordering).using(manager).executeLocally();
-            }
         }
 
+        function _queryFailed(error)
+        {
+            var msg = config.appErrorPrefix + 'Error retrieving data.' + error.message;
+
+            logError(msg, error);
+
+            throw error;
+        }
+
+        function _getAllLocal(resource, ordering, predicate)
+        {
+            return EntityQuery.from(resource)
+                .where(predicate)
+                .orderBy(ordering)
+                .using(manager).executeLocally();
+        }
+
+        function _areSessionsLoaded(value)
+        {
+            return _areItemsLoaded('sessions', value);
+        }
+
+        function _areAttendeesLoaded(value)
+        {
+            return _areItemsLoaded('attendees', value);
+        }
+
+        function _areItemsLoaded(key, value)
+        {
+            if(value === undefined)
+            {
+                return storeMeta.isLoaded[key]; // get
+            }
+
+            return storeMeta.isLoaded[key] = value; // set
+        }
     }
+
 })();

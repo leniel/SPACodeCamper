@@ -12,52 +12,24 @@
 
     function routeConfigurator($routeProvider, routes)
     {
-        //TODO: get rid of me later
-        //$routeProvider.when('/invalid', 
-        //{
-        //    templateUrl: 'app/invalid.html'
-        //});
-
-        $routeProvider.when('/pass',
-        {
-            templateUrl: 'app/speaker/speakers.html',
-            resolve: { fake: fakeAllow }
-        });
-
-        $routeProvider.when('/fail',
-       {
-           templateUrl: 'app/attendee/attendees.html',
-           resolve: { fake: fakeReject }
-       });
-
-        fakeAllow.$inject = ['$q'];
-        fakeReject.$inject = ['$q'];
-
-        function fakeAllow($q)
-        {
-            var data = { x: 1 };
-
-            var defer = $q.defer();
-            defer.resolve(data);
-
-            return defer.promise;
-        }
-
-        function fakeReject($q)
-        {
-            var defer = $q.defer();
-            defer.reject({ msg: 'You shall not pass! -- Gandalf the Gray' });
-
-            return defer.promise;
-        }
-
         routes.forEach(function(r)
         {
-            $routeProvider.when(r.url, r.config);
+            setRoute(r.url, r.config);
         });
 
         $routeProvider.otherwise({ redirectTo: '/' });
+
+        function setRoute(url, definition) {
+            definition.resolve = angular.extend(definition.resolve || {}, {
+                prime: prime
+            });
+
+            $routeProvider.when(url, definition);
+        }
     }
+
+    prime.$inject = ['datacontext'];
+    function prime(dc) { return dc.prime(); }
 
     // Define the routes 
     function getRoutes()

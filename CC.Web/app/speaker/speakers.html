@@ -3,6 +3,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="form-search">
+                    <div class="col-lg-4">
+                        <input class="form-control search-query"
+                               data-ng-model="vm.speakerSearch.firstName"
+                               placeholder="live search..." />
+                    </div>
                     <div class="btn-group pull-right">
                         <a class="btn btn-info" ng-click="vm.refresh()">
                             <i class="fa fa-refresh"></i> Refresh
@@ -15,7 +20,7 @@
                     <div data-cc-widget-header title="{{vm.title}}"
                          subtitle="{{vm.speakers.length}}"></div>
                     <div class="widget-content user">
-                        <div class="padd list-flow" data-ng-repeat="s in vm.speakers">
+                        <div class="padd list-flow" data-ng-repeat="s in vm.speakers | filter: vm.speakerSearch">
                             <div class="user">
 
                                 <img data-cc-img-person="{{s.imageSource}}"

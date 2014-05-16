@@ -144,4 +144,15 @@ to
 </div>
 
 
-10 - 
+10 - On step 8.4, style the search input control like this to conform with Bootstrap 3 styles:
+
+ <div class="col-lg-4">
+    <input class="form-control search-query"
+           data-ng-model="vm.speakerSearch"
+           placeholder="live search..." />
+ </div>
+
+ More about it here: http://stackoverflow.com/a/18901085/114029
+
+
+ 11 - 

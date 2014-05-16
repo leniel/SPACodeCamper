@@ -4,9 +4,9 @@
 
     var controllerId = 'shell';
     angular.module('app').controller(controllerId,
-        ['$rootScope', 'common', 'config', shell]);
+        ['$rootScope', '$window', 'common', 'config', shell]);
 
-    function shell($rootScope, common, config)
+    function shell($rootScope, $window, common, config)
     {
 
         var vm = this;
@@ -31,11 +31,24 @@
 
         function activate()
         {
-            logSuccess('Hot Towel Angular loaded!', null, true);
+            logSuccess('CodeCamper Angular-Breeze loaded!', null, true);
             common.activateController([], controllerId);
         }
 
         function toggleSpinner(on) { vm.isBusy = on; }
+
+    //    $rootScope.$on('$locationChangeStart',
+    //function(event, current, previous)
+    //{
+    //    var answer = $window.confirm('Leave?');
+
+    //    if(!answer)
+    //    {
+    //        event.preventDefault();
+
+    //        return;
+    //    }
+    //});
 
         $rootScope.$on('$routeChangeStart',
             function(event, next, current) { toggleSpinner(true); }

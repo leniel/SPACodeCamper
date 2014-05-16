@@ -9,13 +9,53 @@
 
     // Configure the routes and route resolvers
     app.config(['$routeProvider', 'routes', routeConfigurator]);
+
     function routeConfigurator($routeProvider, routes)
     {
+        //TODO: get rid of me later
+        //$routeProvider.when('/invalid', 
+        //{
+        //    templateUrl: 'app/invalid.html'
+        //});
+
+        $routeProvider.when('/pass',
+        {
+            templateUrl: 'app/speaker/speakers.html',
+            resolve: { fake: fakeAllow }
+        });
+
+        $routeProvider.when('/fail',
+       {
+           templateUrl: 'app/attendee/attendees.html',
+           resolve: { fake: fakeReject }
+       });
+
+        fakeAllow.$inject = ['$q'];
+        fakeReject.$inject = ['$q'];
+
+        function fakeAllow($q)
+        {
+            var data = { x: 1 };
+
+            var defer = $q.defer();
+            defer.resolve(data);
+
+            return defer.promise;
+        }
+
+        function fakeReject($q)
+        {
+            var defer = $q.defer();
+            defer.reject({ msg: 'You shall not pass! -- Gandalf the Gray' });
+
+            return defer.promise;
+        }
 
         routes.forEach(function(r)
         {
             $routeProvider.when(r.url, r.config);
         });
+
         $routeProvider.otherwise({ redirectTo: '/' });
     }
 

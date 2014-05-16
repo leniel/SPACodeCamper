@@ -20,10 +20,13 @@
 
     // Handle routing errors and success events
     // Trigger breeze configuration
-    app.run(['$route', 'breeze', 'datacontext', function($route, breeze, datacontext)
+    app.run(['$route', 'breeze', 'datacontext', 'routeMediator',
+        function($route, breeze, datacontext, routeMediator)
     {
         // Include $route to kick start the router.
 
         datacontext.prime();
+
+        routeMediator.setRoutingHandlers();
     }]);
 })();

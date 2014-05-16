@@ -8,10 +8,9 @@
     // Define the controller on the module.
     // Inject the dependencies.
     // Point to the Controller definition function.
-    angular.module('app').controller(controllerId,
-        ['common', 'config', 'datacontext', sessions]);
+    angular.module('app').controller(controllerId, ['$routeParams', 'common', 'config', 'datacontext', sessions]);
 
-    function sessions(common, config, datacontext)
+    function sessions($routeParams, common, config, datacontext)
     {
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
@@ -24,7 +23,7 @@
         vm.filteredSessions = [];
         vm.refresh = refresh;
         vm.search = search;
-        vm.sessionsSearch = '';
+        vm.sessionsSearch = $routeParams.search || '';
         vm.sessionsFilter = sessionsFilter;
         vm.title = 'Sessions';
 

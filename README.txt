@@ -155,4 +155,37 @@ to
  More about it here: http://stackoverflow.com/a/18901085/114029
 
 
- 11 - 
+ 11 - On step 8.7 we must do some CSS changes to the search input in sidebar.html to fix it to conform with Bootstrap 3 styles:
+
+Use this modified HTML:
+
+<div class="sidebar-widget">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="input-group search">
+                <input type="text"
+                        class="form-control"
+                        data-ng-model="vm.searchText"
+                        data-ng-keyup="vm.search($event)"
+                        placeholder="Find sessions" />
+                <span class="input-group-btn">
+                    <button class="btn btn-info btn-notext" type="button" data-ng-click="vm.search($event)">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+We're using a button addon as described here:
+http://getbootstrap.com/components/#input-groups-buttons
+
+and remove or comment the font-size property in /content/customtheme.css
+
+.btn {
+    background-image: none !important;
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    /*font-size: 13px !important;*/
+}
+

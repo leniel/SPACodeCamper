@@ -56,7 +56,7 @@ input[type="radio"], input[type="checkbox"] {
 .btn {
     background-image: none !important;
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-    font-size: 13px !important;
+    /*font-size: 13px !important;*/
 }
 
     .btn.btn-mini {

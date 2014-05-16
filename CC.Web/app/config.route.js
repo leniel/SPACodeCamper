@@ -19,7 +19,8 @@
 
         $routeProvider.otherwise({ redirectTo: '/' });
 
-        function setRoute(url, definition) {
+        function setRoute(url, definition)
+        {
             definition.resolve = angular.extend(definition.resolve || {}, {
                 prime: prime
             });
@@ -56,6 +57,14 @@
                     }
                 }
             }, {
+                url: '/sessions/search/:search',
+                config: {
+                    title: 'sessions-search',
+                    templateUrl: 'app/session/sessions.html',
+                    settings: {}
+                }
+            },
+            {
                 url: '/speakers',
                 config: {
                     title: 'speakers',

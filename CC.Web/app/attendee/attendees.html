@@ -3,6 +3,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="form-search">
+                    <div class="col-lg-4">
+                        <input class="form-control search-query"
+                               data-ng-model="vm.attendeesSearch"
+                               data-ng-keyup="vm.search($event)"
+                               placeholder="Find attendee..." />
+                    </div>
                     <div class="btn-group pull-right">
                         <a class="btn btn-info" ng-click="vm.refresh()">
                             <i class="fa fa-refresh"></i> Refresh
@@ -13,7 +19,8 @@
             <div class="row">
                 <div class="widget wgreen">
                     <div data-cc-widget-header title="{{vm.title}}"
-                         subtitle="{{vm.attendees.length}}"></div>
+                         subtitle="{{vm.attendeesFilteredCount}} / {{vm.attendeesCount}}"
+                         right-text="Page {{vm.paging.currentPage}} of {{vm.paging.pageCount}}"></div>
                     <div class="widget-content user">
                         <div class="padd list-flow" data-ng-repeat="a in vm.attendees">
                             <div class="user">
@@ -27,11 +34,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="widget-foot">
-                        <div class="clearfix"></div>
-                    </div>
+                <div class="widget-foot">
+                    <div class="clearfix"></div>
+                    <pagination boundary-links="true"
+                                total-items="vm.attendeesFilteredCount"
+                                items-per-page="vm.paging.pageSize"
+                                data-ng-model="vm.paging.currentPage"
+                                data-ng-change="vm.pageChanged()"
+                                max-size="vm.paging.maxPagesToShow"
+                                class="pagination-sm"
+                                previous-text="Prev"
+                                next-text="Next"
+                                first-text="First"
+                                last-text="Last"></pagination>
+                    <div class="clearfix"></div>
                 </div>
             </div>
         </div>
+    </div>
     </section>
 </section>

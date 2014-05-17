@@ -30,7 +30,9 @@
             getMessageCount: getMessageCount,
             getSpeakerPartials: getSpeakerPartials,
             getAttendees: getAttendees,
+            getAttendeesCount: getAttendeesCount,
             getSessionPartials: getSessionPartials,
+            getFilteredCount: getFilteredCount,
             prime: prime,
         };
 
@@ -83,7 +85,8 @@
             }
         }
 
-        function getSpeakerPartials(forceRefresh) {
+        function getSpeakerPartials(forceRefresh)
+        {
             var predicate = breeze.Predicate.create('isSpeaker', "==", true);
             var orderBy = 'firstName, lastName';
             var speakers = [];
@@ -106,7 +109,8 @@
             {
                 speakers = data.results;
 
-                for (var i = speakers.length; i--;) {
+                for(var i = speakers.length; i--;)
+                {
                     speakers[i].isSpeaker = true;
                 }
 
@@ -116,35 +120,73 @@
             }
         }
 
-        function getAttendees(forceRefresh)
+        function getAttendees(forceRefresh, page, size, filter)
         {
             var orderBy = 'firstName, lastName';
-            var attendees = [];
+
+            var take = size || 20;
+            var skip = page ? (page - 1) * size : 0;
 
             if(_areAttendeesLoaded() && !forceRefresh)
             {
-                attendees = _getAllLocal(entityNames.attendee, orderBy);
-
-                return $q.when(attendees);
+                return $q.when(getByPage());
             }
 
             return EntityQuery.from('Persons')
             .select('id, firstName, lastName, imageSource')
             .orderBy(orderBy)
             .toType(entityNames.attendee)
-             .using(manager).execute()
-                .then(querySucceeded, _queryFailed);
+            .using(manager)
+            .execute()
+            .then(querySucceeded, _queryFailed);
 
-            function querySucceeded(data)
+            function getByPage()
             {
-                attendees = data.results;
+                var predicate = null;
+                if(filter)
+                {
+                    predicate = _fullNamePredicate(filter);
+                }
 
-                _areAttendeesLoaded(true);
-
-                log('Retrieved [Attendees] from remote data source', attendees.length, true);
+                var attendees = EntityQuery.from(entityNames.attendee)
+                    .where(predicate)
+                    .take(take)
+                    .skip(skip)
+                    .orderBy(orderBy)
+                    .using(manager).executeLocally();
 
                 return attendees;
             }
+
+            function querySucceeded(data)
+            {
+                _areAttendeesLoaded(true);
+
+                log('Retrieved [Attendees] from remote data source', data.results.length, true);
+
+                return getByPage();
+            }
+        }
+
+        function getAttendeesCount() {
+            if (_areAttendeesLoaded()) {
+                return $q.when(_getLocalEntityCount(entityNames.attendee));
+            }
+
+            return EntityQuery.from(entityNames.attendee)
+                .using(manager)
+                .execute()
+                .then(_getInlineCount);
+        }
+
+        function getFilteredCount(filter) {
+            var predicate = _fullNamePredicate(filter);
+
+            var attendees = EntityQuery.from(entityNames.attendee)
+                    .where(predicate)
+                    .using(manager).executeLocally();
+
+            return attendees.length;
         }
 
         function getLookups()
@@ -215,6 +257,24 @@
                 };
             }
 
+        }
+
+        function _getInlineCount(data) {
+            return data.inlineCount;
+        }
+
+        function _getLocalEntityCount(resource) {
+            var entities = EntityQuery.from(resource)
+                .using(manager)
+                .executeLocally();
+
+            return entities.length;
+        }
+
+        function _fullNamePredicate(filter)
+        {
+            return breeze.Predicate.create('firstName', 'contains', filter)
+                .or('lastName', 'contains', filter);
         }
 
         function _queryFailed(error)

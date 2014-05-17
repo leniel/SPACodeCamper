@@ -189,3 +189,46 @@ and remove or comment the font-size property in /content/customtheme.css
     /*font-size: 13px !important;*/
 }
 
+
+12 - On step 9.4 change the pagination class to conform with Bootstrap 3:
+
+instead of class="pagination-small" use class="pagination-sm"
+
+http://getbootstrap.com/components/#pagination
+
+
+13 - On step 9.10 and ONLY IF you installed the latest Angular.UI.Bootstrap (as of now version 0.11.0) as descreibed on item 8 above, the <pagination> control/directive in the attendees.html needs to be changed since there's a breaking change as described here:
+
+https://github.com/angular-ui/bootstrap/issues/2157
+https://github.com/angular-ui/bootstrap/blob/master/CHANGELOG.md#breaking-changes
+
+This is the correct HTML now:
+
+<pagination boundary-links="true"
+            total-items="vm.attendeesFilteredCount"
+            items-per-page="vm.paging.pageSize"
+            data-ng-model="vm.paging.currentPage"
+            data-ng-change="vm.pageChanged()"
+            max-size="vm.paging.maxPagesToShow"
+            class="pagination-sm"
+            previous-text="Prev"
+            next-text="Next"
+            first-text="First"
+            last-text="Last"></pagination>
+
+Note the introduction of data-ng-model bound to vm.paging.currentPage and data-ng-change bound to vm.pageChanged() function. There's no page parameter being passed now and so in attendees.js the pageChanged function must be like this:
+
+function pageChanged()
+{
+    getAttendees();
+}
+
+For more info about the pagination directive, take a look here:
+
+http://angular-ui.github.io/bootstrap/#/pagination
+
+
+14 - In app\layout\widgetheader.html remove that last div with clear-fix class. This fixes the alignment for Bootstrap 3.
+
+
+15 - 

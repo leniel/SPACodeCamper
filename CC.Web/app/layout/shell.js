@@ -4,11 +4,10 @@
 
     var controllerId = 'shell';
     angular.module('app').controller(controllerId,
-        ['$rootScope', '$window', 'common', 'config', shell]);
+        ['$rootScope', '$window', '$q', 'common', 'config', shell]);
 
-    function shell($rootScope, $window, common, config)
+    function shell($rootScope, $window, $q, common, config)
     {
-
         var vm = this;
 
         var logSuccess = common.logger.getLogFn(controllerId, 'success');
@@ -16,6 +15,7 @@
 
         vm.busyMessage = 'Please wait ...';
         vm.isBusy = true;
+        vm.showSplash = true;
         vm.spinnerOptions = {
             radius: 40,
             lines: 7,
@@ -32,7 +32,12 @@
         function activate()
         {
             logSuccess('CodeCamper Angular-Breeze loaded!', null, true);
-            common.activateController([], controllerId);
+
+            common.activateController([], controllerId)
+                .then(function() {
+
+                    vm.showSplash = false;
+                });
         }
 
         function toggleSpinner(on) { vm.isBusy = on; }

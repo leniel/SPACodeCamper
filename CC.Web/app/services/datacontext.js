@@ -35,6 +35,7 @@
             getAttendeesCount: getAttendeesCount,
             getSessionPartials: getSessionPartials,
             getSessionsCount: getSessionsCount,
+            getTrackCounts: getTrackCounts,
             getFilteredCount: getFilteredCount,
             prime: prime,
         };
@@ -198,6 +199,35 @@
                 .using(manager)
                 .execute()
                 .then(_getInlineCount);
+        }
+
+        function getTrackCounts()
+        {
+            return getSessionPartials().then(function(data)
+            {
+                var sessions = data;
+
+                // Loop through sessions and create a mapped track counter object
+                var trackMap = sessions.reduce(function(accum, session)
+                {
+                    var trackName = session.track.name;
+                    var trackId = session.track.id;
+
+                    if(accum[trackId - 1])
+                    {
+                        accum[trackId - 1].count++;
+                    }
+                    else
+                    {
+                        accum[trackId - 1] = { track: trackName, count: 1 };
+                    }
+
+                    return accum;
+
+                }, []);
+
+                return trackMap;
+            });
         }
 
         function getSpeakersLocal()

@@ -110,36 +110,34 @@
         </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="widget wviolet">
-                        <div data-cc-widget-header title="People"
+                        <div data-cc-widget-header title="{{vm.content.title}}"
                              allow-collapse="true"></div>
-                        <div class="widget-content text-center text-info">
-                            <table class="table table-condensed table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Age</th>
-                                        <th>Location</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr data-ng-repeat="p in vm.people">
-                                        <td>{{p.firstName}}</td>
-                                        <td>{{p.lastName}}</td>
-                                        <td>{{p.age}}</td>
-                                        <td>{{p.location}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <div class="widget-content">
+                            <div class="widget-content referrer">
+                                <table class="table table-condensed table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th><a data-ng-click="vm.content.setSort('track')" href="">Track</a></th>
+                                            <th><a data-ng-click="vm.content.setSort('count')" href="">Sessions</a></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-ng-repeat="t in vm.content.tracks | orderBy:vm.content.predicate:vm.content.reverse">
+                                            <td>{{t.track}}</td>
+                                            <td>{{t.count}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
                         <div class="widget-foot">
                             <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="widget wgreen">
                         <div data-cc-widget-header title="{{vm.news.title}}"
                              allow-collapse="true"></div>

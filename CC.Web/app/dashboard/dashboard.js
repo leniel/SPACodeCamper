@@ -19,10 +19,19 @@
             interval: 3000 // 3 seconds
         }
 
+        vm.content = {
+            predicate: '',
+            reverse: false,
+            setSort: setContentSort,
+            title: 'Content',
+            tracks: []
+    }
+
         vm.news = {
-            title: 'Hot Towel Angular',
-            description: 'Hot Towel Angular is a SPA template for Angular developers.'
+            title: 'Code Camp',
+            description: 'Code Camp is a community event where developers learn from fellow developers. All are welcome to attend and speak. Code Camp is free, by and for the developer community, and occurs on the weekends.'
         };
+
         vm.messageCount = 0;
         vm.attendeesCount = 0;
         vm.sessionsCount = 0;
@@ -32,11 +41,11 @@
 
         activate();
 
-        function activate() {
+        function activate()
+        {
             getTopSpeakers();
 
-
-            var promises = [getAttendeesCount(), getSessionsCount(), getSpeakersCount(), getPeople()];
+            var promises = [getAttendeesCount(), getSessionsCount(), getSpeakersCount(), getTrackCounts()];
             common.activateController(promises, controllerId)
                 .then(function () { log('Activated Dashboard View'); });
         }
@@ -57,6 +66,19 @@
             });
         }
 
+        function getTrackCounts()
+        {
+            return datacontext.getTrackCounts().then(function(data)
+            {
+                return vm.content.tracks = data;
+            });
+        }
+
+        function setContentSort(prop) {
+            vm.content.predicate = prop;
+            vm.content.reverse = !vm.content.reverse;
+        }
+
         function getTopSpeakers() {
             vm.speakers.list = datacontext.getSpeakersTopLocal();
         }
@@ -66,12 +88,6 @@
             var speakers = datacontext.getSpeakersLocal();
 
             return vm.speakersCount = speakers.length;
-        }
-
-        function getPeople() {
-            return datacontext.getPeople().then(function (data) {
-                return vm.people = data;
-            });
         }
     }
 })();

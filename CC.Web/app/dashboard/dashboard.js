@@ -8,26 +8,64 @@
         var log = getLogFn(controllerId);
 
         var vm = this;
+
+        vm.map = {
+            title: "Location"
+        }
+
+        vm.speakers = {
+            title: 'Top Speakers',
+            list: [],
+            interval: 3000 // 3 seconds
+        }
+
         vm.news = {
             title: 'Hot Towel Angular',
             description: 'Hot Towel Angular is a SPA template for Angular developers.'
         };
         vm.messageCount = 0;
+        vm.attendeesCount = 0;
+        vm.sessionsCount = 0;
+        vm.speakersCount = 0;
         vm.people = [];
         vm.title = 'Dashboard';
 
         activate();
 
         function activate() {
-            var promises = [getMessageCount(), getPeople()];
+            getTopSpeakers();
+
+
+            var promises = [getAttendeesCount(), getSessionsCount(), getSpeakersCount(), getPeople()];
             common.activateController(promises, controllerId)
                 .then(function () { log('Activated Dashboard View'); });
         }
 
-        function getMessageCount() {
-            return datacontext.getMessageCount().then(function (data) {
-                return vm.messageCount = data;
+        function getAttendeesCount()
+        {
+            return datacontext.getAttendeesCount().then(function(data)
+            {
+                return vm.attendeesCount = data;
             });
+        }
+
+        function getSessionsCount()
+        {
+            return datacontext.getSessionsCount().then(function(data)
+            {
+                return vm.sessionsCount = data;
+            });
+        }
+
+        function getTopSpeakers() {
+            vm.speakers.list = datacontext.getSpeakersTopLocal();
+        }
+
+        function getSpeakersCount()
+        {
+            var speakers = datacontext.getSpeakersLocal();
+
+            return vm.speakersCount = speakers.length;
         }
 
         function getPeople() {

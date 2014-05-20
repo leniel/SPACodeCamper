@@ -314,6 +314,20 @@ a {
     cursor: pointer;
 }
 
+.carousel-caption {
+    position: static;
+    padding-top: 0;
+    padding-bottom: 15px;
+}
+
+.carousel-indicators {
+    display: none;
+}
+
+.carousel-inner .thumbnail {
+    margin-top: 20px !important;
+}
+
 /* #endregion */
 
 /*#region wrapper for angular ng-include and ng-view animations*/
@@ -548,3 +562,4 @@ a {
 }
 
 /*#endregion */
+

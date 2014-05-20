@@ -228,7 +228,63 @@ For more info about the pagination directive, take a look here:
 http://angular-ui.github.io/bootstrap/#/pagination
 
 
-14 - In app\layout\widgetheader.html remove that last div with clear-fix class. This fixes the alignment for Bootstrap 3.
+14 - Tell about Google Amps
 
 
-15 - 
+
+15 - Watch out when passing the interval value from the view model to the carousel directive on step 10.8. I declared it like so:
+
+<carousel class="carousel-inner" interval="{{vm.speakers.interval}}">
+
+but the correct way is:
+
+<carousel class="carousel-inner" interval="vm.speakers.interval">
+
+and same thing is valid for the s.active value. There's no double {{ }}.
+
+
+16 - While on step 10.8 I got a broken carousel. The problem is described here:
+
+http://stackoverflow.com/questions/22641834/angularjs-corousel-stops-working/22649887#22649887
+
+The solution provided by simonykq here https://github.com/angular-ui/bootstrap/issues/1350#issuecomment-34595075 is really nice. Add a directive in app/services/directives.js
+
+app.directive('disableAnimation', function($animate)
+{
+    return {
+        restrict: 'A',
+        link: function($scope, $element, $attrs)
+        {
+            $attrs.$observe('disableAnimation', function(value)
+            {
+                $animate.enabled(!value, $element);
+            });
+        }
+    }
+});
+
+and then make use of it:
+
+<carousel class="carousel-inner" interval="vm.speakers.interval" disable-animation="true">
+
+
+17 - To fix the carousel appearance, do this:
+
+Add these styles in the file content/styles.css:
+
+.carousel-caption {
+    position: static;
+    padding-top: 0;
+    padding-bottom: 15px;
+}
+
+.carousel-indicators {
+    display: none;
+}
+
+.carousel-inner .thumbnail {
+    margin-top: 20px !important;
+}
+
+
+18 - 

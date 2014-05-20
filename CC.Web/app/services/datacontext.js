@@ -8,6 +8,7 @@
     function datacontext(common, config, emFactory, model)
     {
         var EntityQuery = breeze.EntityQuery;
+        var Predicate = breeze.Predicate;
         var entityNames = model.entityNames;
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(serviceId);
@@ -27,18 +28,18 @@
 
         var service = {
             getPeople: getPeople,
-            getMessageCount: getMessageCount,
             getSpeakerPartials: getSpeakerPartials,
+            getSpeakersLocal: getSpeakersLocal,
+            getSpeakersTopLocal: getSpeakersTopLocal,
             getAttendees: getAttendees,
             getAttendeesCount: getAttendeesCount,
             getSessionPartials: getSessionPartials,
+            getSessionsCount: getSessionsCount,
             getFilteredCount: getFilteredCount,
             prime: prime,
         };
 
         return service;
-
-        function getMessageCount() { return $q.when(72); }
 
         function getPeople()
         {
@@ -87,7 +88,7 @@
 
         function getSpeakerPartials(forceRefresh)
         {
-            var predicate = breeze.Predicate.create('isSpeaker', "==", true);
+            var predicate = Predicate.create('isSpeaker', "==", true);
             var orderBy = 'firstName, lastName';
             var speakers = [];
 
@@ -168,18 +169,60 @@
             }
         }
 
-        function getAttendeesCount() {
-            if (_areAttendeesLoaded()) {
+        function getAttendeesCount()
+        {
+            if(_areAttendeesLoaded())
+            {
                 return $q.when(_getLocalEntityCount(entityNames.attendee));
             }
 
-            return EntityQuery.from(entityNames.attendee)
+            // Attendees aren't loaded; ask the server for a count.
+            return EntityQuery.from('Persons')
+                .take(0)
+                .inlineCount()
                 .using(manager)
                 .execute()
                 .then(_getInlineCount);
         }
 
-        function getFilteredCount(filter) {
+        function getSessionsCount()
+        {
+            if(_areSessionsLoaded())
+            {
+                return $q.when(_getLocalEntityCount(entityNames.session));
+            }
+
+            return EntityQuery.from('Sessions')
+                .take(0)
+                .inlineCount()
+                .using(manager)
+                .execute()
+                .then(_getInlineCount);
+        }
+
+        function getSpeakersLocal()
+        {
+            var orderBy = 'firstName, lastName';
+            var predicate = Predicate.create('isSpeaker', '==', true);
+
+            return _getAllLocal(entityNames.speaker, orderBy, predicate);
+        }
+
+        function getSpeakersTopLocal()
+        {
+            var orderBy = 'firstName, lastName';
+            var predicate = Predicate.create('lastName', '==', 'Papa')
+            .or('lastName', '==', 'Bell')
+            .or('lastName', '==', 'Guthrie')
+            .or('lastName', '==', 'Hanselman')
+            .or('lastName', '==', 'Lerman')
+            .and('isSpeaker', '==', true);
+
+            return _getAllLocal(entityNames.speaker, orderBy, predicate);
+        }
+
+        function getFilteredCount(filter)
+        {
             var predicate = _fullNamePredicate(filter);
 
             var attendees = EntityQuery.from(entityNames.attendee)
@@ -259,11 +302,13 @@
 
         }
 
-        function _getInlineCount(data) {
+        function _getInlineCount(data)
+        {
             return data.inlineCount;
         }
 
-        function _getLocalEntityCount(resource) {
+        function _getLocalEntityCount(resource)
+        {
             var entities = EntityQuery.from(resource)
                 .using(manager)
                 .executeLocally();
@@ -273,7 +318,7 @@
 
         function _fullNamePredicate(filter)
         {
-            return breeze.Predicate.create('firstName', 'contains', filter)
+            return Predicate.create('firstName', 'contains', filter)
                 .or('lastName', 'contains', filter);
         }
 
@@ -302,6 +347,11 @@
         function _areAttendeesLoaded(value)
         {
             return _areItemsLoaded('attendees', value);
+        }
+
+        function _areSpeakersLoaded(value)
+        {
+            return _areItemsLoaded('speakers', value);
         }
 
         function _areItemsLoaded(key, value)

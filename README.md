@@ -8,7 +8,11 @@ In this file I describe some errors I got in Visual Studio and how I solved them
 
 There are some things/NuGet packages changed since the course went live on Pluralsight on 10/22/2013:  
 
-1 - Instead of Install-Package Breeze.WebApi run
+1 - Instead of
+
+`Install-Package Breeze.WebApi`
+
+run
 
 `Install-Package Breeze.WebApi2.EF6`
 
@@ -63,6 +67,8 @@ Updating the NuGet packages above will take care of bumping `System.Web.Http`'s 
 
 * EntityFramework from 6.0.1 to 6.1.0
 * Json.NET from 5.0.8 to 6.0.3
+
+<hr>
 
 **CC.Model**
 

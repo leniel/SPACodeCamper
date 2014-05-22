@@ -182,6 +182,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="README.html">
+      <DependentUpon>README.md</DependentUpon>
+    </Content>
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js">
       <DependentUpon>angular-animate.js</DependentUpon>
@@ -238,6 +241,7 @@
     <Content Include="Scripts\toastr.min.js.map" />
     <Content Include="content\toastr.scss" />
     <Content Include="content\toastr.less" />
+    <Content Include="README.md" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

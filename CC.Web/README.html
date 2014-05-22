@@ -1,0 +1,366 @@
+﻿<h3>SPA Code Camper</h3>
+
+<p>Course available at Pluralsight: http://pluralsight.com/training/Courses/TableOfContents/build-apps-angular-breeze</p>
+
+<p>I'm doing the course using Visual Studio 2013 Update 2...</p>
+
+<p>In this file I describe some errors I got in Visual Studio and how I solved them along the way.</p>
+
+<p>There are some things/NuGet packages changed since the course went live on Pluralsight on 10/22/2013:  </p>
+
+<p>1 - Instead of</p>
+
+<p><code>Install-Package Breeze.WebApi</code></p>
+
+<p>run</p>
+
+<p><code>Install-Package Breeze.WebApi2.EF6</code></p>
+
+<p>2 - In <code>index.html</code>, change:</p>
+
+<p>```HTML</p>
+
+<script src="scripts/breeze.directives.js"></script>
+
+<p>```</p>
+
+<p>to </p>
+
+<p>```HTML</p>
+
+<script src="scripts/breeze.directives.validation.js"></script>
+
+<p>```</p>
+
+<p>3 - On step 3.15 I got this error after adding the Breeze Web API Controller to <code>CC.Web</code> project.</p>
+
+<p><code>Text
+Error    2  Assembly 'Breeze.WebApi2, Version=1.4.0.0, Culture=neutral, PublicKeyToken=f6085f1a45e2ac59' uses 'System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' which has a higher version than referenced assembly 'System.Web.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' c:\Repos\SPACodeCamper\packages\Breeze.Server.WebApi2.1.4.12\lib\Breeze.WebApi2.dll CC.Web
+</code></p>
+
+<p>To solve it we need to update the following NuGet Packages. I used NuGet Package Manager in Visual Studio 2013:</p>
+
+<ul>
+<li>Microsoft.AspNet.WebApi.Client from 5.0.0 to 5.1.2</li>
+<li>Microsoft.AspNet.WebApi.Core from 5.0.0 to 5.1.2</li>
+<li>Microsoft.AspNet.WebApi.WebHost from 5.0.0 to 5.1.2</li>
+<li>Microsoft.AspNet.WebApi.OData from 5.0.0 to 5.1.2 (this one I had to restart Visual Studio to complete the installation)</li>
+</ul>
+
+<p>Updating the NuGet packages above will take care of bumping <code>System.Web.Http</code>'s version to the correct one, in this case 5.1.</p>
+
+<p>4 - Additional NuGet Packages I updated by myself (there was no need to update though)</p>
+
+<p><strong>CC.Web</strong></p>
+
+<ul>
+<li>jQuery from 2.0.3 to 2.1.1</li>
+<li>Json.NET from 4.5.11 to 6.0.3</li>
+<li>moment from 2.5.0 to 2.6.0</li>
+<li>bootstrap from 3.0.3 to 3.1.1</li>
+<li>Microsoft.SqlServer.Compact from 4.0.8854.1 to 4.0.8876.1</li>
+<li>toastr from 2.0.1 to 2.0.2</li>
+<li>spin.js from 1.3 to 2.0</li>
+<li>AngularJS.Core from 1.2.9 to 1.2.16</li>
+<li>AngularJS.Route from 1.2.9 to 1.2.16</li>
+<li>AngularJS.Animate from 1.2.9 to 1.2.16</li>
+<li>AngularJS.Sanitize from 1.2.9 to 1.2.16</li>
+<li>Breeze.Angular from 0.8.3 to 0.8.5</li>
+<li>Breeze.Angular.Directives from 1.3.2 to 1.3.6</li>
+</ul>
+
+<hr>
+
+<p><strong>CC.DataAccess</strong></p>
+
+<ul>
+<li>EntityFramework from 6.0.1 to 6.1.0</li>
+<li>Json.NET from 5.0.8 to 6.0.3</li>
+</ul>
+
+<hr>
+
+<p><strong>CC.Model</strong></p>
+
+<ul>
+<li>Json.NET from 5.0.6 to 6.0.3</li>
+</ul>
+
+<p>Make sure you also update the scripts references in <code>index.html</code> to:</p>
+
+<p>```HTML</p>
+
+<script src="scripts/jquery-2.1.1.js"></script>
+
+<p>```</p>
+
+<p>and</p>
+
+<p>```HTML
+<script src="scripts/breeze.directives.js"></script> instead of</p>
+
+<script src="scripts/breeze.directives.validation.js"></script>
+
+<p>```</p>
+
+<p>5 - On step 4.10 <code>breeze.core.extendQ</code> is not available.</p>
+
+<p>Check this StackOverflow question: http://stackoverflow.com/q/22118797/114029</p>
+
+<p>In <code>app.js</code> pass the <code>breeze</code> dependency directly:</p>
+
+<p><code>JavaScript
+// Handle routing errors and success events
+// Trigger breeze configuration
+app.run(['$route', 'breeze', function($route, breeze)
+{
+    // Include $route to kick start the router.
+}]);
+</code></p>
+
+<p>In <code>datacontext.js</code> do:</p>
+
+<p><code>JavaScript
+return EntityQuery.from('Sessions')
+    .select('id, title, code, speakerId, trackId, timeSlotId, roomId, level, tags')
+    .orderBy(orderBy)
+    .toType('Session')
+    .using(manager).execute()
+    .then(querySucceeded, _queryFailed);
+</code></p>
+
+<p>Get rid of <code>breeze.to$q.shim.js</code> in <code>index.html</code> and delete the file from the <code>\Scripts</code> folder in the project since it's not needed anymore.</p>
+
+<p>6 - In <code>sessions.html</code>, change</p>
+
+<p><code>HTML
+&lt;img data-cc-img-person="{{s.speaker.imageSource}}" class="img-polaroid user-pic" /&gt;
+</code>                          </p>
+
+<p>to</p>
+
+<p><code>HTML
+&lt;img data-cc-img-person="{{s.speaker.imageSource}}" class="img-thumbnail user-pic" /&gt;
+</code></p>
+
+<p><code>img-thumbnail</code> CSS class adds that nice border to the image.</p>
+
+<p>7 - On step 5.9 in <code>sessions.html</code> change </p>
+
+<p><code>HTML
+&lt;small class="right hidden-phone"&gt;{{s.code}}&lt;/small&gt;
+</code></p>
+
+<p>to</p>
+
+<p><code>HTML
+&lt;small class="right hidden-xs hidden-sm"&gt;{{s.code}}&lt;/small&gt;
+</code></p>
+
+<p>In <code>Bootstrap 3</code> the responsive utilities were revamped. Now the class names are <code>hidden-xs</code> and <code>hidden-sm</code> for small screen devices.</p>
+
+<p>More details here: http://getbootstrap.com/css/#responsive-utilities</p>
+
+<p>8 - Installed <code>Angular.UI.Bootstrap</code> NuGet package to get automatic updates. So get rid of this file <code>\Scripts\ui-bootstrap-tpls-0.10.0.js</code> that had been previously added manually to the project.</p>
+
+<p>These are the new files to be added in <code>index.html</code>:</p>
+
+<p>```HTML</p>
+
+<script src="scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+
+<script src="scripts/angular-ui/ui-bootstrap.js"></script>
+
+<p>```</p>
+
+<p>Make sure you remove the old reference to <code>ui-bootstrap-tpls-0.10.0.js</code>.</p>
+
+<p>9 - Changed the progress bar code in <code>index.html</code> from</p>
+
+<p>```HTML</p>
+
+<div class="progress progress-striped active page-progress-bar">
+        <div class="bar"></div>
+</div>
+
+<p>```</p>
+
+<p>to</p>
+
+<p>```HTML</p>
+
+<div class="progress progress-striped active page-progress-bar">
+    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+    </div>
+</div>
+
+<p>```</p>
+
+<p>10 - On step 8.4, style the search <code>&lt;input&gt;</code> control like this to conform with Bootstrap 3 styles:</p>
+
+<p>```HTML</p>
+
+<div class="col-lg-4">
+    <input class="form-control search-query"
+           data-ng-model="vm.speakerSearch"
+           placeholder="live search..." />
+</div>
+
+<p>````</p>
+
+<p>More about it here: http://stackoverflow.com/a/18901085/114029</p>
+
+<p>11 - On step 8.7 we must do some <code>CSS</code> changes to the search input in <code>sidebar.html</code> to fix it to conform with Bootstrap 3 styles:</p>
+
+<p>Use this modified HTML:</p>
+
+<p>```HTML</p>
+
+<div class="sidebar-widget">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="input-group search">
+                <input type="text"
+                        class="form-control"
+                        data-ng-model="vm.searchText"
+                        data-ng-keyup="vm.search($event)"
+                        placeholder="Find sessions" />
+                <span class="input-group-btn">
+                    <button class="btn btn-info btn-notext" type="button" data-ng-click="vm.search($event)">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>```</p>
+
+<p>We're using a button addon as described here:
+http://getbootstrap.com/components/#input-groups-buttons</p>
+
+<p>and remove or comment the <code>font-size</code> property in <code>/content/customtheme.css</code></p>
+
+<p><code>CSS
+.btn {
+    background-image: none !important;
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    /*font-size: 13px !important;*/
+}
+</code></p>
+
+<p>12 - On step 9.4 change the pagination class to conform with Bootstrap 3:</p>
+
+<p>instead of <code>class="pagination-small"</code> use <code>class="pagination-sm"</code></p>
+
+<p>http://getbootstrap.com/components/#pagination</p>
+
+<p>13 - On step 9.10 and <em>ONLY IF</em> you installed the latest <code>Angular.UI.Bootstrap</code> (as of now version 0.11.0) as descreibed on item 8 above, the <code>&lt;pagination&gt;</code> control/directive in <code>attendees.html</code> needs to be changed since there's a breaking change as described here:</p>
+
+<p>https://github.com/angular-ui/bootstrap/issues/2157
+https://github.com/angular-ui/bootstrap/blob/master/CHANGELOG.md#breaking-changes</p>
+
+<p>This is the correct HTML now:</p>
+
+<p><code>HTML
+&lt;pagination boundary-links="true"
+            total-items="vm.attendeesFilteredCount"
+            items-per-page="vm.paging.pageSize"
+            data-ng-model="vm.paging.currentPage"
+            data-ng-change="vm.pageChanged()"
+            max-size="vm.paging.maxPagesToShow"
+            class="pagination-sm"
+            previous-text="Prev"
+            next-text="Next"
+            first-text="First"
+            last-text="Last"&gt;&lt;/pagination&gt;
+</code></p>
+
+<p>Note the introduction of <code>data-ng-model</code> bound to <code>vm.paging.currentPage</code> and <code>data-ng-change</code> bound to <code>vm.pageChanged()</code> function. There's no page parameter being passed now and so in <code>attendees.js</code> the <code>pageChanged</code> function must be like this:</p>
+
+<p><code>JavaScript
+function pageChanged()
+{
+    getAttendees();
+}
+</code></p>
+
+<p>For more info about the pagination directive, take a look here:</p>
+
+<p>http://angular-ui.github.io/bootstrap/#/pagination</p>
+
+<p>14 - Replaced Microsoft map with a Google Maps one in <code>app\dashboard\dashboard.html</code></p>
+
+<p>```HTML</p>
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58970.11446915391!2d-44.02935805219722!3d-22.517980436902008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9ea2ac4b4e5c1d%3A0xd475bc9356fcad22!2sVolta+Redonda+-+RJ!5e0!3m2!1sen!2s!4v1400541976957"
+                                    width="400"
+                                    height="230"
+                                    frameborder="0" scrolling="no" marginwidth="0"
+                                    marginheight="0"
+                                    style="border:0"></iframe>
+
+<p>```</p>
+
+<p>15 - Watch out when passing the <code>interval</code> value from the view model to the carousel directive on step 10.8. I declared it like so:</p>
+
+<p><code>HTML
+&lt;carousel class="carousel-inner" interval="{{vm.speakers.interval}}"&gt;
+</code></p>
+
+<p>but the correct way is:</p>
+
+<p><code>HTML
+&lt;carousel class="carousel-inner" interval="vm.speakers.interval"&gt;
+</code></p>
+
+<p>and same thing is valid for the <code>s.active</code> value. There's no double curly brackets <code>{{ }}</code> surrounding those controller properties.</p>
+
+<p>16 - While on step 10.8 I got a broken <code>&lt;carousel&gt;</code> directive. The problem is described here:</p>
+
+<p>http://stackoverflow.com/questions/22641834/angularjs-corousel-stops-working/22649887#22649887</p>
+
+<p>The solution provided by simonykq here https://github.com/angular-ui/bootstrap/issues/1350#issuecomment-34595075 is really nice. Add a directive in <code>app/services/directives.js</code></p>
+
+<p><code>JavaScript
+app.directive('disableAnimation', function($animate)
+{
+    return {
+        restrict: 'A',
+        link: function($scope, $element, $attrs)
+        {
+            $attrs.$observe('disableAnimation', function(value)
+            {
+                $animate.enabled(!value, $element);
+            });
+        }
+    }
+});
+</code></p>
+
+<p>and then make use of it:</p>
+
+<p><code>HTML
+&lt;carousel class="carousel-inner" interval="vm.speakers.interval" disable-animation="true"&gt;
+</code></p>
+
+<p>17 - To fix the <code>carousel</code> appearance, do this:</p>
+
+<p>Add these styles in the file <code>content/styles.css</code>:</p>
+
+<p>```CSS
+.carousel-caption {
+    position: static;
+    padding-top: 0;
+    padding-bottom: 15px;
+}</p>
+
+<p>.carousel-indicators {
+    display: none;
+}</p>
+
+<p>.carousel-inner .thumbnail {
+    margin-top: 20px !important;
+}
+```</p>

@@ -125,6 +125,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\README.html">
+      <Link>README.html</Link>
+      <DependentUpon>README.md</DependentUpon>
+    </Content>
     <Content Include="app\app.js" />
     <Content Include="app\attendee\attendees.html" />
     <Content Include="app\attendee\attendees.js" />
@@ -182,9 +186,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="README.html">
-      <DependentUpon>README.md</DependentUpon>
-    </Content>
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js">
       <DependentUpon>angular-animate.js</DependentUpon>
@@ -241,7 +242,9 @@
     <Content Include="Scripts\toastr.min.js.map" />
     <Content Include="content\toastr.scss" />
     <Content Include="content\toastr.less" />
-    <Content Include="README.md" />
+    <Content Include="..\README.md">
+      <Link>README.md</Link>
+    </Content>
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

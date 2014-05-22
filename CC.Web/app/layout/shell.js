@@ -6,7 +6,7 @@
     angular.module('app').controller(controllerId,
         ['$rootScope', '$window', '$q', 'common', 'config', shell]);
 
-    function shell($rootScope, $window, common, config)
+    function shell($rootScope, $window, $q, common, config)
     {
         var vm = this;
 

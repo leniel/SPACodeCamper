@@ -8,86 +8,70 @@
         var log = getLogFn(controllerId);
 
         var vm = this;
-
-        vm.map = {
-            title: "Location"
-        }
-
-        vm.speakers = {
-            title: 'Top Speakers',
-            list: [],
-            interval: 3000 // 3 seconds
-        }
-
+        vm.attendeeCount = 0;
+        vm.speakerCount = 0;
+        vm.sessionCount = 0;
         vm.content = {
             predicate: '',
             reverse: false,
-            setSort: setContentSort,
+            setSort: setContentSort, 
             title: 'Content',
-            tracks: []
-    }
-
+            tracks: [] 
+        };
+        vm.map = {
+            title: 'Location'
+        };
+        vm.speakers = {
+            interval: 5000,
+            list: [], 
+            title: 'Top Speakers'
+        };
         vm.news = {
             title: 'Code Camp',
-            description: 'Code Camp is a community event where developers learn from fellow developers. All are welcome to attend and speak. Code Camp is free, by and for the developer community, and occurs on the weekends.'
+            description: 'Code Camp is a community event where developers learn from fellow developers. All are welcome to attend and speak. Code Camp is free, by and for the deveoper community, and occurs on the weekends.'
         };
-
-        vm.messageCount = 0;
-        vm.attendeesCount = 0;
-        vm.sessionsCount = 0;
-        vm.speakersCount = 0;
-        vm.people = [];
         vm.title = 'Dashboard';
 
         activate();
 
-        function activate()
-        {
+        function activate() {
             getTopSpeakers();
-
-            var promises = [getAttendeesCount(), getSessionsCount(), getSpeakersCount(), getTrackCounts()];
+            var promises = [getAttendeeCount(), getSessionCount(), getSpeakerCount(), getTrackCounts()];
             common.activateController(promises, controllerId)
                 .then(function () { log('Activated Dashboard View'); });
         }
-
-        function getAttendeesCount()
-        {
-            return datacontext.getAttendeesCount().then(function(data)
-            {
-                return vm.attendeesCount = data;
+        
+        function getAttendeeCount() {
+            return datacontext.attendee.getCount().then(function(data) {
+                return vm.attendeeCount = data;
             });
         }
 
-        function getSessionsCount()
-        {
-            return datacontext.getSessionsCount().then(function(data)
-            {
-                return vm.sessionsCount = data;
+        function getSessionCount() {
+            return datacontext.session.getCount().then(function (data) {
+                return vm.sessionCount = data;
             });
         }
-
-        function getTrackCounts()
-        {
-            return datacontext.getTrackCounts().then(function(data)
-            {
+        
+        function getTrackCounts() {
+            return datacontext.session.getTrackCounts().then(function (data) {
                 return vm.content.tracks = data;
             });
         }
 
+        function getTopSpeakers() {
+            vm.speakers.list = datacontext.speaker.getTopLocal();
+        }
+
+        function getSpeakerCount() {
+            var speakers = datacontext.speaker.getAllLocal();
+            vm.speakerCount = speakers.length;
+        }
+        
         function setContentSort(prop) {
             vm.content.predicate = prop;
             vm.content.reverse = !vm.content.reverse;
         }
-
-        function getTopSpeakers() {
-            vm.speakers.list = datacontext.getSpeakersTopLocal();
-        }
-
-        function getSpeakersCount()
-        {
-            var speakers = datacontext.getSpeakersLocal();
-
-            return vm.speakersCount = speakers.length;
-        }
+        
     }
 })();

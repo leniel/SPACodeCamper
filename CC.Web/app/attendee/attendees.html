@@ -5,7 +5,7 @@
                 <div class="form-search">
                     <div class="col-lg-4">
                         <input class="form-control search-query"
-                               data-ng-model="vm.attendeesSearch"
+                               data-ng-model="vm.attendeeSearch"
                                data-ng-keyup="vm.search($event)"
                                placeholder="Find attendee..." />
                     </div>
@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="widget wgreen">
                     <div data-cc-widget-header title="{{vm.title}}"
-                         subtitle="{{vm.attendeesFilteredCount}} / {{vm.attendeesCount}}"
+                         subtitle="{{vm.attendeeFilteredCount}} / {{vm.attendeeCount}}"
                          right-text="Page {{vm.paging.currentPage}} of {{vm.paging.pageCount}}"></div>
                     <div class="widget-content user">
                         <div class="padd list-flow fader-animation" data-ng-repeat="a in vm.attendees">
@@ -37,7 +37,7 @@
                 <div class="widget-foot">
                     <div class="clearfix"></div>
                     <pagination boundary-links="true"
-                                total-items="vm.attendeesFilteredCount"
+                                total-items="vm.attendeeFilteredCount"
                                 items-per-page="vm.paging.pageSize"
                                 data-ng-model="vm.paging.currentPage"
                                 data-ng-change="vm.pageChanged()"

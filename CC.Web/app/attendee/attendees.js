@@ -2,38 +2,44 @@
 {
     'use strict';
 
+    // Controller name is handy for logging
     var controllerId = 'attendees';
 
-    // TODO: replace app with your module name
+    // Define the controller on the module.
+    // Inject the dependencies. 
+    // Point to the controller definition function.
     angular.module('app').controller(controllerId,
         ['common', 'config', 'datacontext', attendees]);
 
     function attendees(common, config, datacontext)
     {
+        // Using 'Controller As' syntax, so we assign this to the vm variable (for viewmodel).
         var vm = this;
-
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
+        var keyCodes = config.keyCodes;
 
-        // Bindable properties and functions are placed on vm (view model)
+        // Bindable properties and functions are placed on vm.
         vm.attendees = [];
-        vm.attendeesCount = 0;
-        vm.attendeesFilteredCount = 0;
-        vm.attendeesSearch = '';
+        vm.attendeeCount = 0;
+        vm.attendeeFilteredCount = 0;
+        vm.attendeeSearch = '';
         vm.filteredAttendees = [];
         vm.paging = {
             currentPage: 1,
             maxPagesToShow: 5,
             pageSize: 15
         };
+        vm.pageChanged = pageChanged;
         vm.refresh = refresh;
         vm.search = search;
-        vm.pageChanged = pageChanged;
         vm.title = 'Attendees';
 
+
         Object.defineProperty(vm.paging, 'pageCount', {
-            get: function() {
-                return Math.floor(vm.attendeesFilteredCount / vm.paging.pageSize) + 1;
+            get: function()
+            {
+                return Math.floor(vm.attendeeFilteredCount / vm.paging.pageSize) + 1;
             }
         });
 
@@ -45,38 +51,35 @@
                 .then(function() { log('Activated Attendees View'); });
         }
 
-        function getAttendeesCount() {
-            return datacontext.getAttendeesCount().then(function(data)
+        function getAttendeeCount()
+        {
+            //return datacontext.getAttendeeCount().then(function (data) {
+            return datacontext.attendee.getCount().then(function(data)
             {
-                return vm.attendeesCount = data;
+                return vm.attendeeCount = data;
             });
         }
 
-        function getAttendeesFilteredCount() {
-            vm.attendeesFilteredCount = datacontext.getFilteredCount(vm.attendeesSearch);
+        function getAttendeeFilteredCount()
+        {
+            vm.attendeeFilteredCount = datacontext.attendee.getFilteredCount(vm.attendeeSearch);
         }
 
         function getAttendees(forceRefresh)
         {
-            return datacontext
-                .getAttendees(forceRefresh, vm.paging.currentPage, vm.paging.pageSize, vm.attendeesSearch)
+            return datacontext.attendee.getAll(forceRefresh, vm.paging.currentPage, vm.paging.pageSize, vm.attendeeSearch)
                 .then(function(data)
                 {
                     vm.attendees = data;
-
-                    getAttendeesFilteredCount();
-
-                    if (!vm.attendeesCount || forceRefresh) {
-                        getAttendeesCount();
+                    if(!vm.attendeeCount || forceRefresh)
+                    {
+                        // Only grab the full count once or on refresh
+                        getAttendeeCount();
                     }
-
+                    getAttendeeFilteredCount();
                     return data;
-                });
-        }
-
-        function refresh()
-        {
-            getAttendees(true);
+                }
+            );
         }
 
         function pageChanged()
@@ -84,11 +87,16 @@
             getAttendees();
         }
 
+        function refresh()
+        {
+            getAttendees(true);
+        }
+
         function search($event)
         {
-            if($event.keyCode == config.keyCodes.esc)
+            if($event.keyCode === keyCodes.esc)
             {
-                vm.attendeesSearch = '';
+                vm.attendeeSearch = '';
             }
 
             getAttendees();

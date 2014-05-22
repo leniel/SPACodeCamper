@@ -1,12 +1,21 @@
 ###SPA Code Camper
 
-Course available at Pluralsight: http://pluralsight.com/training/Courses/TableOfContents/build-apps-angular-breeze
+A 2 parts course by extraordinaire/star developer [John Papa](https://github.com/johnpapa).
+The course is available at Pluralsight:
+
+Building Apps with Angular and Breeze - Part 1
+http://pluralsight.com/training/Courses/TableOfContents/build-apps-angular-breeze
+
+Source code for Part 1 is tagged v1.0: https://github.com/leniel/SPACodeCamper/tree/v1.0
+
+Building Apps with Angular and Breeze - Part 2
+http://pluralsight.com/training/Courses/TableOfContents/build-apps-angular-breeze-part2
 
 I'm doing the course using Visual Studio 2013 Update 2...
 
 In this file I describe some errors I got in Visual Studio and how I solved them along the way.
 
-There are some things/NuGet packages changed since the course went live on Pluralsight on 10/22/2013:  
+There are some things/NuGet packages that changed since the course went live on Pluralsight on 10/22/2013 and 12/23/2014 respectively:  
 
 1 - Instead of
 

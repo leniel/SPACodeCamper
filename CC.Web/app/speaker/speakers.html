@@ -21,7 +21,9 @@
                     <div data-cc-widget-header title="{{vm.title}}"
                          subtitle="{{vm.filteredSpeakers.length}} / {{vm.speakers.length}}"></div>
                     <div class="widget-content user">
-                        <div class="padd list-flow" data-ng-repeat="s in vm.filteredSpeakers">
+                        <div class="padd list-flow"
+                             data-ng-repeat="s in vm.filteredSpeakers"
+                             data-ng-click="vm.goToSpeaker(s)">
                             <div class="user">
 
                                 <img data-cc-img-person="{{s.imageSource}}"

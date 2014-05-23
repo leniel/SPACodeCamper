@@ -74,7 +74,16 @@
                         content: '<i class="fa fa-user"></i> Speakers'
                     }
                 }
-            }, {
+            },
+            {
+                url: '/speaker/:id',
+                config: {
+                    title: 'speaker',
+                    templateUrl: 'app/speaker/speakerdetail.html',
+                    settings: { }
+                }
+            },
+            {
                 url: '/attendees',
                 config: {
                     title: 'attendees',

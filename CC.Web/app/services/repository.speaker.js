@@ -19,6 +19,7 @@
             this.getAllLocal = getAllLocal;
             this.getTopLocal = getTopLocal;
             this.getPartials = getPartials;
+            this.getById = getById;
         }
 
         AbstractRepository.extend(Ctor);
@@ -55,6 +56,7 @@
                 speakers = data.results;
                 for (var i = speakers.length; i--;) {
                     speakers[i].isSpeaker = true;
+                    speakers[i].isPartial = true;
                 }
                 self.log('Retrieved [Speaker Partials] from remote data source', speakers.length, true);
                 return speakers;
@@ -72,6 +74,11 @@
                 .and('isSpeaker', '==', true);
 
             return self._getAllLocal(entityName, orderBy, predicate);
+        }
+
+        function getById(id, forceRemote)
+        {
+            return this._getById(entityName, id, forceRemote);
         }
     }
 })();

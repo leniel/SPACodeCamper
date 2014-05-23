@@ -39,6 +39,7 @@
 
             function Person() {
                 this.isSpeaker = false;
+                this.isPartial = false;
             };
 
             Object.defineProperty(Person.prototype, 'fullName', {

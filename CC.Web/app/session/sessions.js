@@ -8,9 +8,9 @@
     // Inject the dependencies. 
     // Point to the controller definition function.
     angular.module('app').controller(controllerId,
-        ['$routeParams', 'common', 'config', 'datacontext', sessions]);
+        ['$location', '$routeParams', 'common', 'config', 'datacontext', sessions]);
 
-    function sessions($routeParams, common, config, datacontext) {
+    function sessions($location, $routeParams, common, config, datacontext) {
         // Using 'Controller As' syntax, so we assign this to the vm variable (for viewmodel).
         var vm = this;
         var getLogFn = common.logger.getLogFn;
@@ -24,6 +24,7 @@
         vm.search = search;
         vm.sessionsSearch = $routeParams.search || '';
         vm.sessionsFilter = sessionsFilter;
+        vm.goToSession = goToSession;
         vm.sessions = [];
         vm.refresh = refresh;
         vm.title = 'Sessions';
@@ -73,6 +74,14 @@
                     || textContains(session.speaker.fullName, searchText)
                 : true;
             return isMatch;
+        }
+
+        function goToSession(session)
+        {
+            if(session && session.id)
+            {
+                $location.path('/session/' + session.id);
+            }
         }
     }
 })();

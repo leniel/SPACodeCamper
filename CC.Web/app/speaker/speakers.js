@@ -1,4 +1,5 @@
-﻿(function () {
+﻿(function()
+{
     'use strict';
 
     // Controller name is handy for logging
@@ -10,7 +11,8 @@
     angular.module('app').controller(controllerId,
         ['$location', 'common', 'config', 'datacontext', speakers]);
 
-    function speakers($location, common, config, datacontext) {
+    function speakers($location, common, config, datacontext)
+    {
         // Using 'Controller As' syntax, so we assign this to the vm variable (for viewmodel).
         var vm = this;
         var keyCodes = config.keyCodes;
@@ -28,14 +30,17 @@
 
         activate();
 
-        function activate() {
+        function activate()
+        {
             common.activateController([getSpeakers()], controllerId)
-                .then(function () { log('Activated Speakers View'); });
+                .then(function() { log('Activated Speakers View'); });
         }
 
-        function getSpeakers(forceRefresh) {
+        function getSpeakers(forceRefresh)
+        {
             return datacontext.speaker.getPartials(forceRefresh)
-                .then(function (data) {
+                .then(function(data)
+                {
                     vm.speakers = data;
                     applyFilter();
                     return vm.speakers;
@@ -43,27 +48,33 @@
         }
 
         function refresh() { getSpeakers(true); }
-        
-        function search($event) {
-            if ($event.keyCode === keyCodes.esc) {
+
+        function search($event)
+        {
+            if($event.keyCode === keyCodes.esc)
+            {
                 vm.speakerSearch = '';
             }
             applyFilter();
         }
-        
-        function applyFilter() {
+
+        function applyFilter()
+        {
             vm.filteredSpeakers = vm.speakers.filter(speakerFilter);
         }
-        
-        function speakerFilter(speaker) {
+
+        function speakerFilter(speaker)
+        {
             var isMatch = vm.speakerSearch
                 ? common.textContains(speaker.fullName, vm.speakerSearch)
                 : true;
             return isMatch;
         }
 
-        function goToSpeaker(speaker) {
-            if (speaker && speaker.id) {
+        function goToSpeaker(speaker)
+        {
+            if(speaker && speaker.id)
+            {
                 $location.path('/speaker/' + speaker.id);
             }
         }

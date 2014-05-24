@@ -17,7 +17,7 @@ There are some things/NuGet packages that changed since the course went live on 
 
 #### Part 1
 
-1 - Instead of
+1.1 - Instead of
 
 `Install-Package Breeze.WebApi`
 
@@ -25,7 +25,7 @@ run
 
 `Install-Package Breeze.WebApi2.EF6`
 
-2 - In `index.html`, change:
+1.2 - In `index.html`, change:
 
 ```HTML
 <script src="scripts/breeze.directives.js"></script>
@@ -37,7 +37,7 @@ to
 <script src="scripts/breeze.directives.validation.js"></script>
 ```
 
-3 - On step 3.15 I got this error after adding the Breeze Web API Controller to `CC.Web` project.
+1.3 - On step 3.15 I got this error after adding the Breeze Web API Controller to `CC.Web` project.
 
 ```Text
 Error    2	Assembly 'Breeze.WebApi2, Version=1.4.0.0, Culture=neutral, PublicKeyToken=f6085f1a45e2ac59' uses 'System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' which has a higher version than referenced assembly 'System.Web.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'	c:\Repos\SPACodeCamper\packages\Breeze.Server.WebApi2.1.4.12\lib\Breeze.WebApi2.dll	CC.Web
@@ -52,7 +52,7 @@ To solve it we need to update the following NuGet Packages. I used NuGet Package
 
 Updating the NuGet packages above will take care of bumping `System.Web.Http`'s version to the correct one, in this case 5.1.
 
-4 - Additional NuGet Packages I updated by myself (there was no need to update though)
+1.4 - Additional NuGet Packages I updated by myself (there was no need to update though)
 
 **CC.Web**
 
@@ -97,7 +97,7 @@ and
 <script src="scripts/breeze.directives.validation.js"></script>
 ```
 
-5 - On step 4.10 `breeze.core.extendQ` is not available.
+1.5 - On step 4.10 `breeze.core.extendQ` is not available.
 
 Check this StackOverflow question: http://stackoverflow.com/q/22118797/114029
 
@@ -125,7 +125,7 @@ return EntityQuery.from('Sessions')
 
 Get rid of `breeze.to$q.shim.js` in `index.html` and delete the file from the `\Scripts` folder in the project since it's not needed anymore.
 
-6 - In `sessions.html`, change
+1.6 - In `sessions.html`, change
 
 ```HTML
 <img data-cc-img-person="{{s.speaker.imageSource}}" class="img-polaroid user-pic" />
@@ -139,7 +139,7 @@ to
 
 `img-thumbnail` CSS class adds that nice border to the image.
 
-7 - On step 5.9 in `sessions.html` change 
+1.7 - On step 5.9 in `sessions.html` change 
 
 ```HTML
 <small class="right hidden-phone">{{s.code}}</small>
@@ -155,7 +155,7 @@ In `Bootstrap 3` the responsive utilities were revamped. Now the class names are
 
 More details here: http://getbootstrap.com/css/#responsive-utilities
 
-8 - Installed `Angular.UI.Bootstrap` NuGet package to get automatic updates. So get rid of this file `\Scripts\ui-bootstrap-tpls-0.10.0.js` that had been previously added manually to the project.
+1.8 - Installed `Angular.UI.Bootstrap` NuGet package to get automatic updates. So get rid of this file `\Scripts\ui-bootstrap-tpls-0.10.0.js` that had been previously added manually to the project.
 
 These are the new files to be added in `index.html`:
 
@@ -166,7 +166,7 @@ These are the new files to be added in `index.html`:
 
 Make sure you remove the old reference to `ui-bootstrap-tpls-0.10.0.js`.
 
-9 - Changed the progress bar code in `index.html` from
+1.9 - Changed the progress bar code in `index.html` from
 
 ```HTML
 <div class="progress progress-striped active page-progress-bar">
@@ -183,7 +183,7 @@ to
 </div>
 ```
 
-10 - On step 8.4, style the search `<input>` control like this to conform with Bootstrap 3 styles:
+1.10 - On step 8.4, style the search `<input>` control like this to conform with Bootstrap 3 styles:
 
 ```HTML
 <div class="col-lg-4">
@@ -195,7 +195,7 @@ to
 
 More about it here: http://stackoverflow.com/a/18901085/114029
 
-11 - On step 8.7 we must do some `CSS` changes to the search input in `sidebar.html` to fix it to conform with Bootstrap 3 styles:
+1.11 - On step 8.7 we must do some `CSS` changes to the search input in `sidebar.html` to fix it to conform with Bootstrap 3 styles:
 
 Use this modified HTML:
 
@@ -234,13 +234,13 @@ and remove or comment the `font-size` property in `/content/customtheme.css`
 }
 ```
 
-12 - On step 9.4 change the pagination class to conform with Bootstrap 3:
+1.12 - On step 9.4 change the pagination class to conform with Bootstrap 3:
 
 instead of `class="pagination-small"` use `class="pagination-sm"`
 
 http://getbootstrap.com/components/#pagination
 
-13 - On step 9.10 and *ONLY IF* you installed the latest `Angular.UI.Bootstrap` (as of now version 0.11.0) as descreibed on item 8 above, the `<pagination>` control/directive in `attendees.html` needs to be changed since there's a breaking change as described here:
+1.13 - On step 9.10 and *ONLY IF* you installed the latest `Angular.UI.Bootstrap` (as of now version 0.11.0) as descreibed on item 8 above, the `<pagination>` control/directive in `attendees.html` needs to be changed since there's a breaking change as described here:
 
 https://github.com/angular-ui/bootstrap/issues/2157
 https://github.com/angular-ui/bootstrap/blob/master/CHANGELOG.md#breaking-changes
@@ -274,7 +274,7 @@ For more info about the pagination directive, take a look here:
 
 http://angular-ui.github.io/bootstrap/#/pagination
 
-14 - Replaced Microsoft map with a Google Maps one in `app\dashboard\dashboard.html`
+1.14 - Replaced Microsoft map with a Google Maps one in `app\dashboard\dashboard.html`
 
 ```HTML
 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58970.11446915391!2d-44.02935805219722!3d-22.517980436902008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9ea2ac4b4e5c1d%3A0xd475bc9356fcad22!2sVolta+Redonda+-+RJ!5e0!3m2!1sen!2s!4v1400541976957"
@@ -285,7 +285,7 @@ http://angular-ui.github.io/bootstrap/#/pagination
                                     style="border:0"></iframe>
 ```
 
-15 - Watch out when passing the `interval` value from the view model to the carousel directive on step 10.8. I declared it like so:
+1.15 - Watch out when passing the `interval` value from the view model to the carousel directive on step 10.8. I declared it like so:
 
 ```HTML
 <carousel class="carousel-inner" interval="{{vm.speakers.interval}}">
@@ -299,7 +299,7 @@ but the correct way is:
 
 and same thing is valid for the `s.active` value. There's no double curly brackets `{{ }}` surrounding those controller properties.
 
-16 - While on step 10.8 I got a broken `<carousel>` directive. The problem is described here:
+1.16 - While on step 10.8 I got a broken `<carousel>` directive. The problem is described here:
 
 http://stackoverflow.com/questions/22641834/angularjs-corousel-stops-working/22649887#22649887
 
@@ -327,7 +327,7 @@ and then make use of it:
 <carousel class="carousel-inner" interval="vm.speakers.interval" disable-animation="true">
 ```
 
-17 - To fix the `carousel` appearance, do this:
+1.17 - To fix the `carousel` appearance, do this:
 
 Add these styles in the file `content/styles.css`:
 
@@ -349,10 +349,10 @@ Add these styles in the file `content/styles.css`:
 
 #### Part 2
 
-1 - On step 4.2 change the button classes to comply with Font-Awesome new icon naming conventions and reestructure the form input controls to match Bootstrap 3 styles.
+2.1 - On step 4.2 change the button classes to comply with Font-Awesome new icon naming conventions and reestructure the form input controls to match Bootstrap 3 styles.
     I used [Bootstrap 3 Horizontal Form](http://getbootstrap.com/css/#forms).
 
-In `customtheme.css`, do these changes...
+In `content\customtheme.css`, do these changes...
 
 * Comment out or remove the following blocks:
 
@@ -376,6 +376,8 @@ In `customtheme.css`, do these changes...
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
-    ```
+```
 
-2 - 
+2.2 - On step 4.6, remember to use `fa fa-asterisk fa-asterisk-large` for the changes indicator icon in `speakerdetail.html`.
+
+2.3 - On step 5.2, do the same overhaul as done in 2.1 above to reformat `app\session\sessiondetails.html`.

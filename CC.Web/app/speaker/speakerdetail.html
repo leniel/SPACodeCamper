@@ -1,6 +1,22 @@
 ﻿<section class="mainbar" data-ng-controller="speakerdetail as vm">
     <section class="matter">
         <div class="container-fluid">
+            <div>
+                <button class="btn btn-info"
+                        data-ng-click="vm.goBack()">
+                    <i class="fa fa-hand-o-left"></i>Back
+                </button>
+                <button class="btn btn-info"
+                        data-ng-click="vm.cancel()"
+                        data-ng-disabled="!vm.canSave">
+                    <i class="fa fa-undo"></i>Cancel
+                </button>
+                <button class="btn btn-info"
+                        data-ng-click="vm.save()"
+                        data-ng-disabled="!vm.canSave">
+                    <i class="fa fa-save"></i>Save
+                </button>
+            </div>
             <div class="widget wgreen">
                 <div data-cc-widget-header title="{{vm.getTitle()}}"></div>
                 <div class="widget-content user">

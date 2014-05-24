@@ -19,7 +19,9 @@
         var $q = common.$q;
 
         var service = {
-            prime: prime
+            prime: prime,
+            cancel: cancel,
+            save: save
             // Repositories to be added on demand:
             //      attendees
             //      lookups
@@ -104,6 +106,36 @@
                 {
                     metadataStore.setEntityTypeForResourceName(resourceName, entityName);
                 }
+            }
+        }
+
+        function cancel()
+        {
+            manager.rejectChanges();
+
+            logSuccess('Canceled changes', null, true);
+        }
+
+        function save()
+        {
+            return manager.saveChanges()
+                .then(saveSucceeded, saveFailed);
+
+            function saveSucceeded(result)
+            {
+                logSuccess('Saved data', result, true);
+            }
+
+            function saveFailed(error)
+            {
+                var msg = config.appErrorPrefix + 'Save failed: ' +
+                    breeze.saveErrorMessageService.getErrorMessage(error);
+
+                error.message = msg;
+
+                logError(msg, error);
+
+                throw error;
             }
         }
     }

@@ -55,6 +55,13 @@
         {
             var val = $routeParams.id;
 
+            if(val === 'new')
+            {
+                vm.speaker = datacontext.speaker.create();
+
+                return vm.speaker;
+            }
+
             datacontext.speaker.getById(val)
                 .then(function(data)
                 {
@@ -62,7 +69,6 @@
 
                 }, function(error)
                 {
-
                     logError('Unable to get Speaker ' + val);
                 });
         }

@@ -20,6 +20,7 @@
             this.getTopLocal = getTopLocal;
             this.getPartials = getPartials;
             this.getById = getById;
+            this.create = create;
         }
 
         AbstractRepository.extend(Ctor);
@@ -79,6 +80,11 @@
         function getById(id, forceRemote)
         {
             return this._getById(entityName, id, forceRemote);
+        }
+
+        function create()
+        {
+            return this.manager.createEntity(entityName);
         }
     }
 })();

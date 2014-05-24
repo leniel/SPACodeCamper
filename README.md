@@ -226,9 +226,8 @@ http://getbootstrap.com/components/#input-groups-buttons
 and remove or comment the `font-size` property in `/content/customtheme.css`
 
 ```CSS
-
-
-*
+.btn {
+    background-image: none !important;
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
     /*font-size: 13px !important;*/
 }

@@ -18,6 +18,7 @@
             this.getCount = getCount;
             this.getPartials = getPartials;
             this.getTrackCounts = getTrackCounts;
+            this.getById = getById;
         }
 
         AbstractRepository.extend(Ctor);
@@ -82,6 +83,11 @@
                 self.log('Retrieved [Session Partials] from remote data source', sessions.length, true);
                 return sessions;
             }
+        }
+
+        function getById(id, forceRemote)
+        {
+            return this._getById(entityName, id, forceRemote);
         }
     }
 })();

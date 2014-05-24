@@ -92,15 +92,14 @@
                                             class="form-control"></select>
                                     <img data-cc-img-person="{{vm.session.speaker.imageSource}}"
                                          class="img-polaroid" />
-                                    <address>{{vm.session.speaker.fullName}}</address>
                                 </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-1 control-label">Description</label>
                         <div class="col-sm-7">
-                            <input data-ng-model="vm.session.description"
-                                   placeholder="Enter description" class="form-control" />
+                            <textarea data-ng-model="vm.session.description"
+                                      placeholder="Enter description" class="form-control"></textarea>
                         </div>
                     </div>
                 </form>

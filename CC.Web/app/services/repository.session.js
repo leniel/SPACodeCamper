@@ -78,7 +78,7 @@
                 .then(querySucceeded, self._queryFailed);
 
             function querySucceeded(data) {
-                sessions = data.results;
+                sessions = self._setIsPartialTrue(data.results);
                 self._areItemsLoaded(true);
                 self.log('Retrieved [Session Partials] from remote data source', sessions.length, true);
                 return sessions;

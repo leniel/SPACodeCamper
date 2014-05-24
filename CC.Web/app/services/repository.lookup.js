@@ -1,4 +1,5 @@
-﻿(function () {
+﻿(function()
+{
     'use strict';
 
     var serviceId = 'repository.lookup';
@@ -6,12 +7,14 @@
     angular.module('app').factory(serviceId,
         ['model', 'repository.abstract', RepositoryLookup]);
 
-    function RepositoryLookup(model, AbstractRepository) {
+    function RepositoryLookup(model, AbstractRepository)
+    {
         var entityName = 'lookups';
         var entityNames = model.entityNames;
         var EntityQuery = breeze.EntityQuery;
 
-        function Ctor(mgr) {
+        function Ctor(mgr)
+        {
             this.serviceId = serviceId;
             this.entityName = entityName;
             this.manager = mgr;
@@ -19,7 +22,7 @@
             this.getAll = getAll;
             this.setLookups = setLookups;
         }
-        
+
         // Allow this repo to have access to the Abstract Repo's functions,
         // then put its own Ctor back on itself.
         //Ctor.prototype = new AbstractRepository(Ctor);
@@ -29,20 +32,25 @@
         return Ctor;
 
         // Formerly known as datacontext.getLookups()
-        function getAll() {
+        function getAll()
+        {
             var self = this;
+
             return EntityQuery.from('Lookups')
                 .using(self.manager).execute()
                 .then(querySucceeded, self._queryFailed);
 
-            function querySucceeded(data) {
+            function querySucceeded(data)
+            {
                 self.log('Retrieved [Lookups]', data, true);
+
                 return true;
             }
         }
 
         // Formerly known as datacontext.setLookups()
-        function setLookups() {
+        function setLookups()
+        {
             this.lookupCachedData = {
                 rooms: this._getAllLocal(entityNames.room, 'name'),
                 tracks: this._getAllLocal(entityNames.track, 'name'),

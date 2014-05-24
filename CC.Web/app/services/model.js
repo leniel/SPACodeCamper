@@ -1,4 +1,5 @@
-﻿(function () {
+﻿(function()
+{
     'use strict';
 
     var serviceId = 'model';
@@ -20,12 +21,13 @@
         // Define the functions and properties to reveal.
         var service = {
             configureMetadataStore: configureMetadataStore,
-            entityNames : entityNames
+            entityNames: entityNames
         };
 
         return service;
 
-        function configureMetadataStore(metadataStore) {
+        function configureMetadataStore(metadataStore)
+        {
             registerSession(metadataStore);
             registerPerson(metadataStore);
             registerTimeSlot(metadataStore);
@@ -37,13 +39,15 @@
         {
             metadataStore.registerEntityTypeCtor('Person', Person);
 
-            function Person() {
+            function Person()
+            {
                 this.isSpeaker = false;
                 this.isPartial = false;
             };
 
             Object.defineProperty(Person.prototype, 'fullName', {
-                get: function() {
+                get: function()
+                {
                     var fn = this.firstName;
                     var ln = this.lastName;
 
@@ -52,13 +56,15 @@
             });
         }
 
-        function registerTimeSlot(metadataStore) {
+        function registerTimeSlot(metadataStore)
+        {
             metadataStore.registerEntityTypeCtor('TimeSlot', TimeSlot);
 
             function TimeSlot() { };
 
             Object.defineProperty(TimeSlot.prototype, 'name', {
-                get: function() {
+                get: function()
+                {
                     // formatted dates are good!
                     var start = this.start;
                     var value = moment.utc(start).format('ddd hh:mm a');
@@ -72,13 +78,18 @@
         {
             metadataStore.registerEntityTypeCtor('Session', Session);
 
-            function Session() { };
+            function Session()
+            {
+                this.isPartial = false;
+            };
 
             Object.defineProperty(Session.prototype, 'tagsFormatted', {
-                get: function() {
+                get: function()
+                {
                     return this.tags ? this.tags.replace(/\|/g, ', ') : this.tags;
                 },
-                set: function(value) {
+                set: function(value)
+                {
                     this.tags = value.replace(/\, /g, '|');
                 }
             });

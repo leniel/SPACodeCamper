@@ -51,6 +51,8 @@
             onDestroy();
             onHasChanges();
 
+            initLookups();
+
             common.activateController([getRequestedSession()], controllerId);
         }
 
@@ -122,6 +124,17 @@
                 {
                     vm.hasChanges = data.hasChanges;
                 });
+        }
+
+        function initLookups()
+        {
+            var lookups = datacontext.lookup.lookupCachedData;
+
+            vm.rooms = lookups.rooms;
+            vm.tracks = lookups.tracks;
+            vm.timeslots = lookups.timeslots;
+
+            vm.speakers = datacontext.speaker.getAllLocal();
         }
     }
 })();

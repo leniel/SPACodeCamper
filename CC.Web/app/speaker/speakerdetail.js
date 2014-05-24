@@ -6,9 +6,9 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$window', '$routeParams', 'common', 'config', 'datacontext', speakerdetail]);
+        ['$scope', '$location', '$window', '$routeParams', 'common', 'config', 'datacontext', speakerdetail]);
 
-    function speakerdetail($scope, $window, $routeParams, common, config, datacontext)
+    function speakerdetail($scope, $location, $window, $routeParams, common, config, datacontext)
     {
         var vm = this;
 
@@ -17,8 +17,6 @@
         // Bindable properties and functions are placed on vm.
         vm.speaker = undefined;
         vm.speakerIdParameter = $routeParams.id;
-
-        vm.getTitle = getTitle;
 
         vm.goBack = goBack;
         vm.cancel = cancel;
@@ -73,11 +71,6 @@
                 });
         }
 
-        function getTitle()
-        {
-            return 'Edit ' + ((vm.speaker && vm.speaker.fullName) || '');
-        }
-
         function goBack()
         {
             $window.history.back();
@@ -86,6 +79,16 @@
         function cancel()
         {
             datacontext.cancel();
+
+            if (vm.speaker.entityAspect.entityState.isDetached())
+            {
+                goToSpeakers();
+            }
+        }
+
+        function goToSpeakers()
+        {
+            $location.path('/speakers');
         }
 
         function save()

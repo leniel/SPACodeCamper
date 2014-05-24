@@ -22,7 +22,7 @@
                 </span>
             </div>
             <div class="widget wgreen">
-                <div data-cc-widget-header title="{{vm.getTitle()}}"></div>
+                <div data-cc-widget-header title="Edit {{vm.skeaker.fullName || 'New Speaker'}}"></div>
                     <div class="widget-content user">
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
@@ -45,7 +45,7 @@
                                 <label for="Email" class="col-sm-1 control-label">Email</label>
                                 <div class="col-sm-7">
                                     <input id="Email" data-ng-model="vm.speaker.email"
-                                           placeholder="Email" class="form-control" type="email" />
+                                           placeholder="Email" class="form-control" />
                                 </div>
                             </div>
 

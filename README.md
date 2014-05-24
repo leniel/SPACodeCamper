@@ -15,6 +15,8 @@ In this file I describe some errors I got in Visual Studio and how I solved them
 
 There are some things/NuGet packages that changed since the course went live on Pluralsight on 10/22/2013 and 12/23/2014 respectively:  
 
+#### Part 1
+
 1 - Instead of
 
 `Install-Package Breeze.WebApi`
@@ -106,7 +108,7 @@ In `app.js` pass the `breeze` dependency directly:
 // Trigger breeze configuration
 app.run(['$route', 'breeze', function($route, breeze)
 {
-    // Include $route to kick start the router.
+// Include $route to kick start the router. 
 }]);
 ```
 
@@ -114,11 +116,11 @@ In `datacontext.js` do:
 
 ```JavaScript
 return EntityQuery.from('Sessions')
-    .select('id, title, code, speakerId, trackId, timeSlotId, roomId, level, tags')
-    .orderBy(orderBy)
-    .toType('Session')
-    .using(manager).execute()
-    .then(querySucceeded, _queryFailed);
+.select('id, title, code, speakerId, trackId, timeSlotId, roomId, level, tags')
+.orderBy(orderBy)
+.toType('Session')
+.using(manager).execute()
+.then(querySucceeded, _queryFailed);
 ```
 
 Get rid of `breeze.to$q.shim.js` in `index.html` and delete the file from the `\Scripts` folder in the project since it's not needed anymore.
@@ -224,8 +226,9 @@ http://getbootstrap.com/components/#input-groups-buttons
 and remove or comment the `font-size` property in `/content/customtheme.css`
 
 ```CSS
-.btn {
-    background-image: none !important;
+
+
+*
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
     /*font-size: 13px !important;*/
 }
@@ -343,3 +346,36 @@ Add these styles in the file `content/styles.css`:
     margin-top: 20px !important;
 }
 ```
+
+#### Part 2
+
+1 - On step 4.2 change the button classes to comply with Font-Awesome new icon naming conventions and reestructure the form input controls to match Bootstrap 3 styles.
+    I used [Bootstrap 3 Horizontal Form](http://getbootstrap.com/css/#forms).
+
+In `customtheme.css`, do these changes...
+
+* Comment out or remove the following blocks:
+
+```CSS
+.form-horizontal .control-label {
+    width: 90px;
+}
+
+.control-label{
+    font-weight: 400 !important;
+    font-size: 14px;
+}
+```
+
+* Add the padding properties on line 362:
+
+```CSS
+    form label {
+        font-size: 13px;
+        line-height: 13px;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    ```
+
+2 - 

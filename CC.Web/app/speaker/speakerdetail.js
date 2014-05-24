@@ -38,7 +38,7 @@
 
         function canSave()
         {
-            return !vm.isSaving;
+            return vm.hasChanges && !vm.isSaving;
         }
 
         activate();
@@ -46,6 +46,7 @@
         function activate()
         {
             onDestroy();
+            onHasChanges();
 
             common.activateController([getRequestedSpeaker()], controllerId);
         }
@@ -110,6 +111,15 @@
             {
                 datacontext.cancel();
             });
+        }
+
+        function onHasChanges()
+        {
+            $scope.$on(config.events.hasChangesChanged,
+                function(event, data)
+                {
+                    vm.hasChanges = data.hasChanges;
+                });
         }
 
     }

@@ -4,11 +4,12 @@
 
     var serviceId = 'datacontext';
     angular.module('app').factory(serviceId,
-        ['common', 'entityManagerFactory', 'model', 'repositories', datacontext]);
+        ['common', 'config', 'entityManagerFactory', 'model', 'repositories', datacontext]);
 
-    function datacontext(common, emFactory, model, repositories)
+    function datacontext(common, config, emFactory, model, repositories)
     {
         var entityNames = model.entityNames;
+        var events = config.events;
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(serviceId);
         var logError = getLogFn(serviceId, 'error');
@@ -37,6 +38,7 @@
         {
             repositories.init(manager);
             defineLazyLoadedRepos();
+            setupEventForHasChangesChanged();
         }
 
         // Add ES5 property to datacontext for each named repo
@@ -137,6 +139,16 @@
 
                 throw error;
             }
+        }
+
+        function setupEventForHasChangesChanged()
+        {
+            manager.hasChangesChanged.subscribe(function(eventArgs)
+            {
+                var data = { hasChanges: eventArgs.hasChanges };
+                // Send the message (the Controller receives it)
+                common.$broadcast(events.hasChangesChanged, data);
+            });
         }
     }
 })();

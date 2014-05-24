@@ -36,7 +36,8 @@
 
     var events = {
         controllerActivateSuccess: 'controller.activateSuccess',
-        spinnerToggle: 'spinner.toggle'
+        spinnerToggle: 'spinner.toggle',
+        hasChangesChanged : 'datacontext.hasChangesChanged'
     };
 
     var config = {

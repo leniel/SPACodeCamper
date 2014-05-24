@@ -16,47 +16,72 @@
                         data-ng-disabled="!vm.canSave">
                     <i class="fa fa-save"></i>Save
                 </button>
+                <span data-ng-show="vm.hasChanges"
+                      class="dissolve-animation ng-hide">
+                    <i class="fa fa-asterisk fa-asterisk-large"></i>
+                </span>
             </div>
             <div class="widget wgreen">
                 <div data-cc-widget-header title="{{vm.getTitle()}}"></div>
-                <div class="widget-content user">
-                    <div>
-                        <div>
-                            <label>First Name</label>
-                            <input data-ng-model="vm.speaker.firstName"
-                                   placeholder="First Name" />
-                        </div>
-                        <div>
-                            <label>Last Name</label>
-                            <input data-ng-model="vm.speaker.lastName"
-                                   placeholder="Last Name" />
-                        </div>
-                        <div>
-                            <label>Email</label>
-                            <input data-ng-model="vm.speaker.email"
-                                   placeholder="Email" />
-                        </div>
-                        <div>
-                            <label>Blog</label>
-                            <input data-ng-model="vm.speaker.blog"
-                                   placeholder="Blog" />
-                        </div>
-                        <div>
-                            <label>Twitter</label>
-                            <input data-ng-model="vm.speaker.twitter"
-                                   placeholder="Twitter" />
-                        </div>
-                        <div>
-                            <img data-cc-img-person="{{vm.speaker.imageSource}}" class="img-polaroid" />
-                        </div>
-                        <div>
-                            <label>Bio</label>
-                            <textarea data-ng-model="vm.speaker.bio"
-                                      placeholder="Enter speaker bio"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    <div class="widget-content user">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="FirstName" class="col-sm-1 control-label">First Name</label>
+                                <div class="col-sm-7">
+                                    <input id="FirstName" data-ng-model="vm.speaker.firstName"
+                                           placeholder="First Name" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="LastName" class="col-sm-1 control-label">Last Name</label>
+                                <div class="col-sm-7">
+                                    <input id="LastName" data-ng-model="vm.speaker.lastName"
+                                           placeholder="Last Name" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Email" class="col-sm-1 control-label">Email</label>
+                                <div class="col-sm-7">
+                                    <input id="Email" data-ng-model="vm.speaker.email"
+                                           placeholder="Email" class="form-control" type="email" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Blog" class="col-sm-1 control-label">Blog</label>
+                                <div class="col-sm-7">
+                                    <input id="Blog" data-ng-model="vm.speaker.blog"
+                                           placeholder="Blog" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Twitter" class="col-sm-1 control-label">Twitter</label>
+                                <div class="col-sm-7">
+                                    <input id="Twitter" data-ng-model="vm.speaker.twitter"
+                                           placeholder="Twitter" class="form-control" />
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="Photo" class="col-sm-1 control-label">Photo</label>
+                                <div class="col-sm-7">
+                                    <img id="Photo" data-cc-img-person="{{vm.speaker.imageSource}}" class="img-polaroid" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Bio" class="col-sm-1 control-label">Bio</label>
+                                <div class="col-sm-7">
+                                    <textarea id="Bio" data-ng-model="vm.speaker.bio"
+                                              placeholder="Enter Speaker Bio" class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </form>
+</div>
+</div>
         </div>
     </section>
 </section>

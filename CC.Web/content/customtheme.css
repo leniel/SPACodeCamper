@@ -163,10 +163,10 @@ a.btn {
     font-size: 13px;
 }
 
-.control-label{
+/*.control-label{
     font-weight: 400 !important;
     font-size: 14px;
-}
+}*/
 
 .badge {
     font-weight: 400;
@@ -362,15 +362,17 @@ form {
     form label {
         font-size: 13px;
         line-height: 13px;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 
 .form-inline button {
     margin-left: 15px;
 }
 
-.form-horizontal .control-label {
+/*.form-horizontal .control-label {
     width: 90px;
-}
+}*/
 
 .form-horizontal .controls {
     margin-left: 110px;

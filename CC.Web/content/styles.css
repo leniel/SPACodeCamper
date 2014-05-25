@@ -328,6 +328,17 @@ a {
     margin-top: 20px !important;
 }
 
+.modal
+{
+    overflow-y: auto;
+}
+
+.modal-open
+{
+    overflow: auto;
+    overflow-x: hidden;
+}
+
 /* #endregion */
 
 /*#region wrapper for angular ng-include and ng-view animations*/

@@ -5,9 +5,9 @@
     var controllerId = 'sessiondetail';
 
     angular.module('app').controller(controllerId,
-        ['$location', '$scope', '$window', '$routeParams', 'common', 'config', 'datacontext', sessiondetail]);
+        ['$location', '$scope', '$window', '$routeParams', 'common', 'config', 'bootstrap.dialog', 'datacontext', sessiondetail]);
 
-    function sessiondetail($location, $scope, $window, $routeParams, common, config, datacontext)
+    function sessiondetail($location, $scope, $window, $routeParams, common, config, bsDialog, datacontext)
     {
         var vm = this;
 
@@ -106,15 +106,21 @@
 
         function deleteSession()
         {
-            datacontext.markDeleted(vm.session);
+            return bsDialog.deleteDialog('Session')
+                .then(confirmDelete);
 
-            vm.save().then(success, failed);
-
-            function success() { goToSessions(); }
-
-            function failed(error)
+            function confirmDelete()
             {
-                cancel(); // Makes the entity available to edit again
+                datacontext.markDeleted(vm.session);
+
+                vm.save().then(success, failed);
+
+                function success() { goToSessions(); }
+
+                function failed(error)
+                {
+                    cancel(); // Makes the entity available to edit again
+                }
             }
         }
 

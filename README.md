@@ -382,3 +382,22 @@ In `content\customtheme.css`, do these changes...
 2.3 - On step 5.2, do the same overhaul as done in 2.1 above to reformat `app\session\sessiondetails.html`.
 
 2.4 - On steps 6.3 and 6.6 make sure you replace the Create buttons' icons with `<i class="fa fa-plus"></i>`.
+
+2.5 - On step 7.3 remember to use `fa fa-trash-o` for the trash icon.
+
+2.6 - On step 7.5 apply a fix to a Bootstrap 3.1.1 dialog's bug as described here: http://stackoverflow.com/a/23851892/114029. Put these CSS classes inside `content\styles.css`:
+
+```CSS
+.modal
+{
+    overflow-y: auto;
+}
+
+.modal-open
+{
+    overflow: auto;
+    overflow-x: hidden;
+}
+```
+
+2.7 - 

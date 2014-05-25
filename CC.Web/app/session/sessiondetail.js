@@ -139,6 +139,8 @@
                 {
                     // Save success
                     vm.isSaving = false;
+
+                    datacontext.speaker.calcIsSpeaker();
                 },
                 function(error)
                 {

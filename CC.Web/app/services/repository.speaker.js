@@ -24,6 +24,7 @@
             this.getPartials = getPartials;
             this.getById = getById;
             this.create = create;
+            this.calcIsSpeaker = calcIsSpeaker;
         }
 
         AbstractRepository.extend(Ctor);
@@ -101,6 +102,27 @@
         function create()
         {
             return this.manager.createEntity(entityName);
+        }
+
+        function calcIsSpeaker()
+        {
+            // Call this when you need to reset the isSpeaker flag.
+            // EX:  session changes (maybe we changed the speaker).
+            //      session is deleted (speaker may not have sessions anymore)
+            var self = this;
+
+            var persons = self.manager.getEntities(model.entityNames.person);
+            var sessions = self.manager.getEntities(model.entityNames.session);
+
+            //var persons = EntityQuery.from('Persons')
+            //    .using(self.manager).executeLocally();
+            //var sessions = EntityQuery.from('Sessions')
+            //    .using(self.manager).executeLocally();
+
+            // clear isSpeaker value for all persons, then
+            // reassign based on who has a session now (excluding the nullo)
+            persons.forEach(function(p) { p.isSpeaker = false; });
+            sessions.forEach(function(s) { s.speaker.isSpeaker = (s.speakerId !== 0); });
         }
     }
 })();

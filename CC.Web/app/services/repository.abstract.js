@@ -4,9 +4,9 @@
 
     var serviceId = 'repository.abstract';
 
-    angular.module('app').factory(serviceId, ['$q', 'common', AbstractRepository]);
+    angular.module('app').factory(serviceId, ['$q', 'common', 'config', AbstractRepository]);
 
-    function AbstractRepository($q, common)
+    function AbstractRepository($q, common, config)
     {
         var EntityQuery = breeze.EntityQuery;
         var logError = common.logger.getLogFn(this.serviceId, 'error');

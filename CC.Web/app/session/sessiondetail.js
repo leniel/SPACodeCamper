@@ -27,6 +27,7 @@
 
         vm.goBack = goBack;
         vm.cancel = cancel;
+        vm.deleteSession = deleteSession;
 
         vm.hasChanges = false;
         vm.isSaving = false;
@@ -101,6 +102,20 @@
         function goToSessions()
         {
             $location.path('/sessions');
+        }
+
+        function deleteSession()
+        {
+            datacontext.markDeleted(vm.session);
+
+            vm.save().then(success, failed);
+
+            function success() { goToSessions(); }
+
+            function failed(error)
+            {
+                cancel(); // Makes the entity available to edit again
+            }
         }
 
         function save()

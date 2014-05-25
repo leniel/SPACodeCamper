@@ -16,6 +16,9 @@
                         data-ng-disabled="!vm.canSave">
                     <i class="fa fa-save"></i>Save
                 </button>
+                <a class="btn btn-danger" data-ng-click="vm.deleteSession()">
+                    <i class="fa fa-trash-o"></i> Delete
+                </a>
                 <span data-ng-show="vm.hasChanges"
                       class="dissolve-animation ng-hide">
                     <i class="fa fa-asterisk fa-asterisk-large"></i>

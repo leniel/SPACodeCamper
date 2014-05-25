@@ -22,7 +22,8 @@
         var service = {
             prime: prime,
             cancel: cancel,
-            save: save
+            save: save,
+            markDeleted: markDeleted
             // Repositories to be added on demand:
             //      attendees
             //      lookups
@@ -152,6 +153,11 @@
                 // Send the message (the Controller receives it)
                 common.$broadcast(events.hasChangesChanged, data);
             });
+        }
+
+        function markDeleted(entity)
+        {
+            return entity.entityAspect.setDeleted();
         }
     }
 })();

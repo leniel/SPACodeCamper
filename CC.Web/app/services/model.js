@@ -18,10 +18,13 @@
             timeslot: 'TimeSlot'
         }
 
+        var nulloDate = new Date(1900, 0, 1);
+
         // Define the functions and properties to reveal.
         var service = {
             configureMetadataStore: configureMetadataStore,
-            entityNames: entityNames
+            entityNames: entityNames,
+            createNullos: createNullos
         };
 
         return service;
@@ -31,6 +34,23 @@
             registerSession(metadataStore);
             registerPerson(metadataStore);
             registerTimeSlot(metadataStore);
+        }
+
+        function createNullos(manager)
+        {
+            var unchanged = breeze.EntityState.Unchanged;
+
+            createNullo(entityNames.timeslot, { start: nulloDate, isSessionSlot: true });
+            createNullo(entityNames.room);
+            createNullo(entityNames.speaker, { firstName: ' [Select a person]' });
+            createNullo(entityNames.track);
+
+            function createNullo(entityName, values)
+            {
+                var initialValues = values || { name: ' [Select a ' + entityName.toLowerCase() + ']' };
+
+                return manager.createEntity(entityName, initialValues, unchanged);
+            }
         }
 
         //#region Internal Methods        
@@ -65,9 +85,12 @@
             Object.defineProperty(TimeSlot.prototype, 'name', {
                 get: function()
                 {
-                    // formatted dates are good!
                     var start = this.start;
-                    var value = moment.utc(start).format('ddd hh:mm a');
+
+                    var value = ((start - nulloDate) === 0) ?
+                        ' [Select a timeslot]' :
+                        (start && moment.utc(start).isValid()) ?
+                            moment.utc(start).format('ddd hh:mm a') : '[Unknown]';
 
                     return value;
                 }

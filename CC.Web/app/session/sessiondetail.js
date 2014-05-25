@@ -5,9 +5,9 @@
     var controllerId = 'sessiondetail';
 
     angular.module('app').controller(controllerId,
-        ['$scope', '$window', '$routeParams', 'common', 'config', 'datacontext', sessiondetail]);
+        ['$location', '$scope', '$window', '$routeParams', 'common', 'config', 'datacontext', sessiondetail]);
 
-    function sessiondetail($scope, $window, $routeParams, common, config, datacontext)
+    function sessiondetail($location, $scope, $window, $routeParams, common, config, datacontext)
     {
         var vm = this;
 
@@ -65,6 +65,13 @@
         {
             var val = $routeParams.id;
 
+            if(val === 'new')
+            {
+                vm.session = datacontext.session.create();
+
+                return vm.session;
+            }
+
             datacontext.session.getById(val)
                 .then(function(data)
                 {
@@ -84,6 +91,16 @@
         function cancel()
         {
             datacontext.cancel();
+
+            if(vm.session.entityAspect.entityState.isDetached())
+            {
+                goToSessions();
+            }
+        }
+
+        function goToSessions()
+        {
+            $location.path('/sessions');
         }
 
         function save()
@@ -134,7 +151,7 @@
             vm.tracks = lookups.tracks;
             vm.timeslots = lookups.timeslots;
 
-            vm.speakers = datacontext.speaker.getAllLocal();
+            vm.speakers = datacontext.speaker.getAllLocal(true);
         }
     }
 })();

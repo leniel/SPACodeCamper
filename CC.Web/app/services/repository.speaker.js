@@ -1,17 +1,20 @@
-﻿(function () {
+﻿(function()
+{
     'use strict';
 
     var serviceId = 'repository.speaker';
     angular.module('app').factory(serviceId,
         ['model', 'repository.abstract', RepositorySpeaker]);
 
-    function RepositorySpeaker(model, AbstractRepository) {
+    function RepositorySpeaker(model, AbstractRepository)
+    {
         var entityName = model.entityNames.speaker;
         var EntityQuery = breeze.EntityQuery;
         var orderBy = 'firstName, lastName';
         var Predicate = breeze.Predicate;
 
-        function Ctor(mgr) {
+        function Ctor(mgr)
+        {
             this.serviceId = serviceId;
             this.entityName = entityName;
             this.manager = mgr;
@@ -28,20 +31,30 @@
         return Ctor;
 
         // Formerly known as datacontext.getLocal()
-        function getAllLocal() {
+        function getAllLocal(includeNullo)
+        {
             var self = this;
+
             var predicate = Predicate.create('isSpeaker', '==', true);
+
+            if(includeNullo)
+            {
+                predicate = predicate.or(this._predicates.isNullo);
+            }
+
             return self._getAllLocal(entityName, orderBy, predicate);
         }
 
         // Formerly known as datacontext.getSpeakerPartials()
-        function getPartials(forceRemote) {
+        function getPartials(forceRemote)
+        {
             var self = this;
             var predicate = Predicate.create('isSpeaker', '==', true);
             var speakerOrderBy = 'firstName, lastName';
             var speakers = [];
 
-            if (!forceRemote) {
+            if(!forceRemote)
+            {
                 speakers = self._getAllLocal(entityName, speakerOrderBy, predicate);
                 return self.$q.when(speakers);
             }
@@ -53,9 +66,11 @@
                 .using(self.manager).execute()
                 .then(querySucceeded, self._queryFailed);
 
-            function querySucceeded(data) {
+            function querySucceeded(data)
+            {
                 speakers = data.results;
-                for (var i = speakers.length; i--;) {
+                for(var i = speakers.length; i--;)
+                {
                     speakers[i].isSpeaker = true;
                     speakers[i].isPartial = true;
                 }
@@ -65,7 +80,8 @@
         }
 
         // Formerly known as datacontext.getSpeakersTopLocal()
-        function getTopLocal() {
+        function getTopLocal()
+        {
             var self = this;
             var predicate = Predicate.create('lastName', '==', 'Papa')
                 .or('lastName', '==', 'Guthrie')

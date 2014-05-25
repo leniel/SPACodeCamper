@@ -380,3 +380,5 @@ In `content\customtheme.css`, do these changes...
 2.2 - On step 4.6, remember to use `fa fa-asterisk fa-asterisk-large` for the changes indicator icon in `speakerdetail.html`.
 
 2.3 - On step 5.2, do the same overhaul as done in 2.1 above to reformat `app\session\sessiondetails.html`.
+
+2.4 - On steps 6.3 and 6.6 make sure you replace the Create buttons' icons with `<i class="fa fa-plus"></i>`.

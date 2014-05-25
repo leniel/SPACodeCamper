@@ -11,6 +11,11 @@
         var EntityQuery = breeze.EntityQuery;
         var logError = common.logger.getLogFn(this.serviceId, 'error');
 
+        var _predicates = {
+            isNotNullo: breeze.Predicate.create('id', '!=', 0),
+            isNullo: breeze.Predicate.create('id', '==', 0)
+        };
+
         // Abstract repo gets its derived object's this.manager
         function Ctor()
         {
@@ -37,6 +42,7 @@
         // Convenience functions for the Repos
         Ctor.prototype.log = common.logger.getLogFn(this.serviceId);
         Ctor.prototype.$q = common.$q;
+        Ctor.prototype._predicates = _predicates;
 
         return Ctor;
 

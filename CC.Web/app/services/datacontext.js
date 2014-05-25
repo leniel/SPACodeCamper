@@ -113,9 +113,12 @@
 
         function cancel()
         {
-            manager.rejectChanges();
+            if (manager.hasChanges())
+            {
+                manager.rejectChanges();
 
-            logSuccess('Canceled changes', null, true);
+                logSuccess('Canceled changes', null, true);
+            }
         }
 
         function save()

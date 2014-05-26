@@ -4,9 +4,9 @@
 
     var serviceId = 'model';
 
-    angular.module('app').factory(serviceId, model);
+    angular.module('app').factory(serviceId, ['model.validation', model]);
 
-    function model()
+    function model(modelValidation)
     {
         var entityNames = {
             attendee: 'Person',
@@ -24,7 +24,8 @@
         var service = {
             configureMetadataStore: configureMetadataStore,
             entityNames: entityNames,
-            createNullos: createNullos
+            createNullos: createNullos,
+            extendMetadata: extendMetadata
         };
 
         return service;
@@ -34,6 +35,13 @@
             registerSession(metadataStore);
             registerPerson(metadataStore);
             registerTimeSlot(metadataStore);
+
+            modelValidation.createAndRegister(entityNames);
+        }
+
+        function extendMetadata(metadataStore)
+        {
+            modelValidation.applyValidators(metadataStore);
         }
 
         function createNullos(manager)

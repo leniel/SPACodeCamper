@@ -151,6 +151,7 @@
     <Content Include="app\services\directives.js" />
     <Content Include="app\services\entityManagerFactory.js" />
     <Content Include="app\services\model.js" />
+    <Content Include="app\services\model.validation.js" />
     <Content Include="app\services\repositories.js" />
     <Content Include="app\services\repository.abstract.js" />
     <Content Include="app\services\repository.attendee.js" />

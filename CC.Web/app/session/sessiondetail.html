@@ -32,7 +32,8 @@
                         <div class="col-sm-7">
                             <input data-ng-model="vm.session.title"
                                    placeholder="Session title"
-                                   class="form-control" />
+                                   class="form-control"
+                                   data-z-validate/>
                         </div>
                     </div>
 
@@ -41,7 +42,7 @@
                         <div class="col-sm-7">
                             <select data-ng-options="t.name for t in vm.tracks"
                                     data-ng-model="vm.session.track"
-                                    class="form-control"></select>
+                                    class="form-control" data-z-validate></select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -49,7 +50,7 @@
                         <div class="col-sm-7">
                             <select data-ng-options="ts.name for ts in vm.timeslots"
                                     data-ng-model="vm.session.timeSlot"
-                                    class="form-control"></select>
+                                    class="form-control" data-z-validate></select>
                         </div>
                     </div>
 
@@ -58,7 +59,7 @@
                         <div class="col-sm-7">
                             <select data-ng-options="r.name for r in vm.rooms"
                                     data-ng-model="vm.session.room"
-                                    class="form-control"></select>
+                                    class="form-control" data-z-validate></select>
                         </div>
                     </div>
 
@@ -90,9 +91,9 @@
                     <div class="form-group">
                         <label class="col-sm-1 control-label">Speaker</label>
                         <div class="col-sm-7">
-   <select data-ng-options="speaker.fullName for speaker in vm.speakers"
-                                            data-ng-model="vm.session.speaker"
-                                            class="form-control"></select>
+                            <select data-ng-options="speaker.fullName for speaker in vm.speakers"
+                                    data-ng-model="vm.session.speaker"
+                                    class="form-control" data-z-validate></select>
                                     <img data-cc-img-person="{{vm.session.speaker.imageSource}}"
                                          class="img-polaroid" />
                                 </div>

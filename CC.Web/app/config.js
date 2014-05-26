@@ -65,4 +65,24 @@
         cfg.config.spinnerToggleEvent = config.events.spinnerToggle;
     }]);
     //#endregion
+
+    //#region Configure Breeze Validation Directive
+    app.config(['zDirectivesConfigProvider', function(cfg)
+    {
+        cfg.zValidateTemplate =
+                     '<span class="invalid"><i class="fa fa-warning"></i>' +
+                     'We\'ve got an Error: %error%</span>';
+        //cfg.zRequiredTemplate =
+        //    '<i class="icon-asterisk icon-asterisk-invalid z-required" title="Required"></i>';
+    }]);
+
+    // Learning Point:
+    // Can configure during config or app.run phase
+    //app.run(['zDirectivesConfig', function(cfg) {
+    //    cfg.zValidateTemplate =
+    //                 '<span class="invalid"><i class="icon-warning-sign"></i>' +
+    //                 'Inconceivable! %error%</span>';
+    //}]);
+
+    //#endregion
 })();

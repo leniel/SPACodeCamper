@@ -9,6 +9,8 @@ Source code for Part 1 is [tagged v1.0](https://github.com/leniel/SPACodeCamper/
 
 [Building Apps with Angular and Breeze - Part 2](http://pluralsight.com/training/Courses/TableOfContents/build-apps-angular-breeze-part2)
 
+Source code for Part 2 is [tagged v2.0](https://github.com/leniel/SPACodeCamper/tree/v2.0).
+
 I'm doing the course using Visual Studio 2013 Update 2...
 
 In this file I describe some errors I got in Visual Studio and how I solved them along the way.

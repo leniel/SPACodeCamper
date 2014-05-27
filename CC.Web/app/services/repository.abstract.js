@@ -11,7 +11,8 @@
         var EntityQuery = breeze.EntityQuery;
         var logError = common.logger.getLogFn(this.serviceId, 'error');
 
-        var _predicates = {
+        var _predicates =
+            {
             isNotNullo: breeze.Predicate.create('id', '!=', 0),
             isNullo: breeze.Predicate.create('id', '==', 0)
         };
@@ -31,8 +32,7 @@
             repoCtor.prototype.constructor = repoCtor;
         };
 
-        // Shared by repository classes 
-        Ctor.prototype._areItemsLoaded = _areItemsLoaded;
+        // Shared by repository classes
         Ctor.prototype._getAllLocal = _getAllLocal;
         Ctor.prototype._getById = _getById;
         Ctor.prototype._getInlineCount = _getInlineCount;
@@ -45,15 +45,6 @@
         Ctor.prototype._predicates = _predicates;
 
         return Ctor;
-
-        function _areItemsLoaded(value)
-        {
-            if(value === undefined)
-            {
-                return this.isLoaded; // get
-            }
-            return this.isLoaded = value; // set
-        }
 
         function _getAllLocal(resource, ordering, predicate)
         {
@@ -107,6 +98,8 @@
 
                 self.log('Retrieved [' + entityName + '] id ' + entity.id
                     + ' from remote data source', entity, true);
+
+                self.zStorage.save();
 
                 return entity;
             }

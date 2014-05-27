@@ -3,10 +3,10 @@
     'use strict';
 
     var serviceId = 'repository.speaker';
-    angular.module('app').factory(serviceId,
-        ['model', 'repository.abstract', RepositorySpeaker]);
 
-    function RepositorySpeaker(model, AbstractRepository)
+    angular.module('app').factory(serviceId, ['model', 'repository.abstract', 'zStorage', RepositorySpeaker]);
+
+    function RepositorySpeaker(model, AbstractRepository, zStorage)
     {
         var entityName = model.entityNames.speaker;
         var EntityQuery = breeze.EntityQuery;
@@ -25,6 +25,7 @@
             this.getById = getById;
             this.create = create;
             this.calcIsSpeaker = calcIsSpeaker;
+            this.zStorage = zStorage;
         }
 
         AbstractRepository.extend(Ctor);
@@ -57,6 +58,7 @@
             if(!forceRemote)
             {
                 speakers = self._getAllLocal(entityName, speakerOrderBy, predicate);
+
                 return self.$q.when(speakers);
             }
 
@@ -70,12 +72,17 @@
             function querySucceeded(data)
             {
                 speakers = data.results;
+
                 for(var i = speakers.length; i--;)
                 {
                     speakers[i].isSpeaker = true;
                     speakers[i].isPartial = true;
                 }
+
+                self.zStorage.save();
+
                 self.log('Retrieved [Speaker Partials] from remote data source', speakers.length, true);
+
                 return speakers;
             }
         }
@@ -84,6 +91,7 @@
         function getTopLocal()
         {
             var self = this;
+
             var predicate = Predicate.create('lastName', '==', 'Papa')
                 .or('lastName', '==', 'Guthrie')
                 .or('lastName', '==', 'Bell')

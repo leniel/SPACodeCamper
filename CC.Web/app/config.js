@@ -37,7 +37,12 @@
     var events = {
         controllerActivateSuccess: 'controller.activateSuccess',
         spinnerToggle: 'spinner.toggle',
-        hasChangesChanged : 'datacontext.hasChangesChanged'
+        hasChangesChanged: 'datacontext.hasChangesChanged',
+        storage: {
+            error: 'store.error',
+            storeChanged: 'store.changed',
+            wipChanged: 'wip.changed'
+        }
     };
 
     var config = {
@@ -63,6 +68,23 @@
     app.config(['commonConfigProvider', function (cfg) {
         cfg.config.controllerActivateSuccessEvent = config.events.controllerActivateSuccess;
         cfg.config.spinnerToggleEvent = config.events.spinnerToggle;
+    }]);
+    //#endregion
+
+    //#region Configure the zStorage and zStorageWip services via zStorageConfig
+    app.config(['zStorageConfigProvider', function(cfg)
+    {
+        cfg.config = {
+            // zStorage
+            enabled: true,
+            key: 'CodeCamperAngularBreeze',
+            events: events.storage,
+            appErrorPrefix: config.appErrorPrefix,
+            version: config.version,
+            // zStorageWip
+            wipKey: 'CodeCamperAngularBreeze.WIP',
+            newGuid: breeze.core.getUuid
+        };
     }]);
     //#endregion
 

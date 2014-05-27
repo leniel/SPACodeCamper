@@ -4,15 +4,16 @@
 
     var controllerId = 'sidebar';
 
-    angular.module('app').controller(controllerId, ['$route', '$location', 'config', 'routes', sidebar]);
+    angular.module('app').controller(controllerId, ['$route', '$location', 'config', 'routes', 'datacontext', 'bootstrap.dialog', sidebar]);
 
-    function sidebar($route, $location, config, routes)
+    function sidebar($route, $location, config, routes, datacontext, bsDialog)
     {
         var vm = this;
 
         vm.isCurrent = isCurrent;
         vm.search = search;
         vm.searchText = '';
+        vm.clearStorage = clearStorage;
 
         activate();
 
@@ -56,6 +57,20 @@
 
                 $location.path(route + vm.searchText);
             }
+        }
+
+        function clearStorage()
+        {
+            return bsDialog.deleteDialog('Local Storage')
+                .then(confirmDelete, cancelDelete);
+
+            function confirmDelete()
+            {
+                datacontext.zStorage.clear();
+                
+            }
+
+            function cancelDelete() { }
         }
     };
 })();

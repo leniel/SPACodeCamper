@@ -1,17 +1,20 @@
-﻿(function () {
+﻿(function()
+{
     'use strict';
 
     var serviceId = 'repository.attendee';
-    angular.module('app').factory(serviceId,
-        ['model', 'repository.abstract', RepositoryAttendee]);
 
-    function RepositoryAttendee(model, AbstractRepository) {
+    angular.module('app').factory(serviceId, ['model', 'repository.abstract', 'zStorage', RepositoryAttendee]);
+
+    function RepositoryAttendee(model, AbstractRepository, zStorage)
+    {
         var entityName = model.entityNames.attendee;
         var EntityQuery = breeze.EntityQuery;
         var orderBy = 'firstName, lastName';
         var Predicate = breeze.Predicate;
 
-        function Ctor(mgr) {
+        function Ctor(mgr)
+        {
             this.serviceId = serviceId;
             this.entityName = entityName;
             this.manager = mgr;
@@ -19,6 +22,7 @@
             this.getAll = getAll;
             this.getCount = getCount;
             this.getFilteredCount = getFilteredCount;
+            this.zStorage = zStorage;
         }
 
         AbstractRepository.extend(Ctor);
@@ -26,13 +30,15 @@
         return Ctor;
 
         // Formerly known as datacontext.getAttendees()
-        function getAll(forceRemote, page, size, nameFilter) {
+        function getAll(forceRemote, page, size, nameFilter)
+        {
             var self = this;
             // Only return a page worth of attendees
             var take = size || 20;
             var skip = page ? (page - 1) * size : 0;
 
-            if (self._areItemsLoaded() && !forceRemote) {
+            if(self.zStorage.areItemsLoaded('attendees') && !forceRemote)
+            {
                 // Get the page of attendees from local cache
                 return self.$q.when(getByPage());
             }
@@ -48,15 +54,22 @@
             function querySucceeded(data)
             {
                 var attendees = self._setIsPartialTrue(data.results);
-                self._areItemsLoaded(true);
+
+                self.zStorage.areItemsLoaded('attendees', true);
+
+                self.zStorage.save();
+
                 self.log('Retrieved [Attendees] from remote data source', attendees.length, true);
+
                 return getByPage();
             }
 
-            function getByPage() {
+            function getByPage()
+            {
                 var predicate = null;
 
-                if (nameFilter) {
+                if(nameFilter)
+                {
                     predicate = _fullNamePredicate(nameFilter);
                 }
 
@@ -72,11 +85,15 @@
         }
 
         // Formerly known as datacontext.getAttendeeCount()
-        function getCount() {
+        function getCount()
+        {
             var self = this;
-            if (self._areItemsLoaded()) {
+
+            if(self.zStorage.areItemsLoaded('attendees'))
+            {
                 return self.$q.when(self._getLocalEntityCount(entityName));
             }
+
             // Attendees aren't loaded; ask the server for a count.
             return EntityQuery.from('Persons').take(0).inlineCount()
                 .using(self.manager).execute()
@@ -84,7 +101,8 @@
         }
 
         // Formerly known as datacontext.getFilteredCount()
-        function getFilteredCount(nameFilter) {
+        function getFilteredCount(nameFilter)
+        {
             var predicate = _fullNamePredicate(nameFilter);
 
             var attendees = EntityQuery.from(entityName)
@@ -95,7 +113,8 @@
             return attendees.length;
         }
 
-        function _fullNamePredicate(filterValue) {
+        function _fullNamePredicate(filterValue)
+        {
             return Predicate
                 .create('firstName', 'contains', filterValue)
                 .or('lastName', 'contains', filterValue);

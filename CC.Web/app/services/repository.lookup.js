@@ -4,10 +4,9 @@
 
     var serviceId = 'repository.lookup';
 
-    angular.module('app').factory(serviceId,
-        ['model', 'repository.abstract', RepositoryLookup]);
+    angular.module('app').factory(serviceId, ['model', 'repository.abstract', 'zStorage', RepositoryLookup]);
 
-    function RepositoryLookup(model, AbstractRepository)
+    function RepositoryLookup(model, AbstractRepository, zStorage)
     {
         var entityName = 'lookups';
         var entityNames = model.entityNames;
@@ -21,6 +20,7 @@
             // Exposed data access functions
             this.getAll = getAll;
             this.setLookups = setLookups;
+            this.zStorage = zStorage;
         }
 
         // Allow this repo to have access to the Abstract Repo's functions,
@@ -43,6 +43,8 @@
             function querySucceeded(data)
             {
                 model.createNullos(self.manager);
+
+                self.zStorage.save();
 
                 self.log('Retrieved [Lookups]', data, true);
 

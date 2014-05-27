@@ -15,6 +15,7 @@
         // 3rd Party Modules
         'breeze.angular',    // configures breeze for an angular app
         'breeze.directives', // contains the breeze validation directive (zValidate)
+        'ngzWip',            // Angular-Breeze LocalStorage features
         'ui.bootstrap'       // ui-bootstrap (ex: carousel, pagination, dialog)
     ]);
 

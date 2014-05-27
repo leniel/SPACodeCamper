@@ -4,15 +4,18 @@
 
     var controllerId = 'speakerdetail';
 
-    // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$location', '$window', '$routeParams', 'common', 'config', 'datacontext', speakerdetail]);
+        ['$scope', '$location', '$window', '$routeParams', 'common', 'config', 'datacontext', 'model', speakerdetail]);
 
-    function speakerdetail($scope, $location, $window, $routeParams, common, config, datacontext)
+    function speakerdetail($scope, $location, $window, $routeParams, common, config, datacontext, model)
     {
         var vm = this;
 
+        var entityName = model.entityNames.speaker;
+
         var logError = common.logger.getLogFn(controllerId, 'error');
+
+        var wipEntityKey = undefined;
 
         // Bindable properties and functions are placed on vm.
         vm.speaker = undefined;
@@ -46,7 +49,7 @@
             onDestroy();
             onHasChanges();
 
-            common.activateController([getRequestedSpeaker()], controllerId);
+            common.activateController([getRequestedSpeaker()], controllerId).then(onEveryChange());
         }
 
         function getRequestedSpeaker()
@@ -60,14 +63,19 @@
                 return vm.speaker;
             }
 
-            datacontext.speaker.getById(val)
+            return datacontext.speaker.getEntityByIdOrFromWip(val)
                 .then(function(data)
                 {
-                    vm.speaker = data;
+                    // Will either get back an entity or an {entity:, key:}
+                    wipEntityKey = data.key;
 
-                }, function(error)
+                    vm.speaker = data.entity || data;
+                },
+                function(error)
                 {
-                    logError('Unable to get Speaker ' + val);
+                    logError('Unable to get speaker from WIP ' + val);
+
+                    goToSpeakers();
                 });
         }
 
@@ -79,6 +87,8 @@
         function cancel()
         {
             datacontext.cancel();
+
+            removeWipEntity();
 
             if (vm.speaker.entityAspect.entityState.isDetached())
             {
@@ -106,6 +116,8 @@
                 {
                     // Save success
                     vm.isSaving = false;
+
+                    removeWipEntity();
                 },
                 function(error)
                 {
@@ -118,6 +130,8 @@
         {
             $scope.$on('$destroy', function()
             {
+                autoStoreWip(true);
+
                 datacontext.cancel();
             });
         }
@@ -131,5 +145,38 @@
                 });
         }
 
+        function autoStoreWip(immediate)
+        {
+            common.debouncedThrottle(controllerId, storeWipEntity, 1000, immediate);
+        }
+
+        function onEveryChange()
+        {
+            $scope.$on(config.events.entitiesChanged,
+                function(event, data)
+                    {
+                        autoStoreWip(); 
+                        
+                    });
+        }
+
+        function removeWipEntity()
+        {
+            datacontext.zStorageWip.removeWipEntity(wipEntityKey);
+        }
+
+        function storeWipEntity()
+        {
+            if (!vm.speaker)
+            {
+                return;
+            }
+
+            var description = (vm.speaker.fullName || '[New speaker]') + ' ' + vm.speaker.id;
+
+            var routeState = 'speaker';
+
+            wipEntityKey = datacontext.zStorageWip.storeWipEntity(vm.speaker, wipEntityKey, entityName, description, routeState);
+        }
     }
 })();

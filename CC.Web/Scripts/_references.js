@@ -37,5 +37,6 @@
 /// <reference path="angular-animate.js" />
 /// <reference path="angular-route.js" />
 /// <reference path="angular-sanitize.js" />
+/// <reference path="angular.breeze.storagewip.js" />
 /// <reference path="angular-ui/ui-bootstrap-tpls.js" />
 /// <reference path="angular-ui/ui-bootstrap.js" />

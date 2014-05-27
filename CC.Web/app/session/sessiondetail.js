@@ -97,6 +97,8 @@
         {
             datacontext.cancel();
 
+            removeWipEntity();
+
             if(vm.session.entityAspect.entityState.isDetached())
             {
                 goToSessions();
@@ -119,7 +121,13 @@
 
                 vm.save().then(success, failed);
 
-                function success() { goToSessions(); }
+                function success()
+                {
+                    removeWipEntity();
+
+                    goToSessions(); 
+                    
+                }
 
                 function failed(error)
                 {
@@ -207,6 +215,11 @@
             var description = vm.session.title || '[New Session]' + vm.session.id;
 
             wipEntityKey = datacontext.zStorageWip.storeWipEntity(vm.session, wipEntityKey, entityName, description);
+        }
+
+        function removeWipEntity()
+        {
+            datacontext.zStorageWip.removeWipEntity(wipEntityKey);
         }
     }
 })();

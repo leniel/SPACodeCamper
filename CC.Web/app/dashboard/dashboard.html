@@ -2,7 +2,7 @@
     <section class="matter">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-lg-12">
                     <ul class="today-datas">
                         <li class="blightblue">
                             <div class="pull-left"><i class="fa fa-plane"></i></div>
@@ -21,7 +21,7 @@
                                 <div class="clearfix"></div>
                             </a>
                         </li>
-                        
+
                         <li class="bgreen">
                             <a href="#/attendees">
                                 <div class="pull-left"><i class="fa fa-group"></i></div>
@@ -31,7 +31,7 @@
                                 <div class="clearfix"></div>
                             </a>
                         </li>
-                        
+
                         <li class="bviolet">
                             <a href="#/speakers">
                                 <div class="pull-left"><i class="fa fa-microphone"></i></div>
@@ -45,72 +45,72 @@
                     </ul>
                 </div>
             </div>
-            
-        <div class="row">
-            
-            <div class="col-lg-6">
-                
-                <div class="widget wgreen">
-                    <div data-cc-widget-header title="{{vm.map.title}}"
-                         allow-collapse="true"></div>
-                    
-                    <div class="widget-content">
-                        
-                        <div class="map">
-                                       
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58970.11446915391!2d-44.02935805219722!3d-22.517980436902008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9ea2ac4b4e5c1d%3A0xd475bc9356fcad22!2sVolta+Redonda+-+RJ!5e0!3m2!1sen!2s!4v1400541976957"
-                                    width="400"
-                                    height="230"
-                                    frameborder="0" scrolling="no" marginwidth="0"
-                                    marginheight="0"
-                                    style="border:0"></iframe>
+
+            <div class="row">
+
+                <div class="col-lg-6">
+
+                    <div class="widget wgreen">
+                        <div data-cc-widget-header title="{{vm.map.title}}"
+                             allow-collapse="true"></div>
+
+                        <div class="widget-content">
+
+                            <div class="map">
+
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58970.11446915391!2d-44.02935805219722!3d-22.517980436902008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9ea2ac4b4e5c1d%3A0xd475bc9356fcad22!2sVolta+Redonda+-+RJ!5e0!3m2!1sen!2s!4v1400541976957"
+                                        width="400"
+                                        height="230"
+                                        frameborder="0" scrolling="no" marginwidth="0"
+                                        marginheight="0"
+                                        style="border:0"></iframe>
+
+                            </div>
 
                         </div>
 
                     </div>
-                
+
                 </div>
 
-            </div>
-            
-            <div class="col-lg-6">
+                <div class="col-lg-6">
 
-                <div class="widget wlightblue">
-                    <div data-cc-widget-header title="{{vm.speakers.title}}"
-                         allow-collapse="true"></div>
+                    <div class="widget wlightblue">
+                        <div data-cc-widget-header title="{{vm.speakers.title}}"
+                             allow-collapse="true"></div>
 
-                    <div class="widget-content text-center text-info">
+                        <div class="widget-content text-center text-info">
 
-                        <carousel class="carousel-inner" interval="vm.speakers.interval" disable-animation="true">
+                            <carousel class="carousel-inner" interval="vm.speakers.interval" disable-animation="true">
 
-                            <slide data-ng-repeat="s in vm.speakers.list" active="s.active">
+                                <slide data-ng-repeat="s in vm.speakers.list" active="s.active">
 
-                                <img data-cc-img-person="{{s.imageSource}}" class="thumbnail" style="margin:auto" />
+                                    <img data-cc-img-person="{{s.imageSource}}" class="thumbnail" style="margin:auto" />
 
-                                <div class="carousel-caption">
+                                    <div class="carousel-caption">
 
-                                    <h4>{{s.fullName}}</h4>
+                                        <h4>{{s.fullName}}</h4>
 
-                                </div>
+                                    </div>
 
-                            </slide>
+                                </slide>
 
-                        </carousel>
+                            </carousel>
+
+                        </div>
 
                     </div>
 
-                </div>
-                
-                <div class="widget-foot">
-                    <div class="clearfix"></div>
+                    <div class="widget-foot">
+                        <div class="clearfix"></div>
+                    </div>
+
                 </div>
 
             </div>
 
-        </div>
-
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-lg-4">
                     <div class="widget wviolet">
                         <div data-cc-widget-header title="{{vm.content.title}}"
                              allow-collapse="true"></div>
@@ -131,13 +131,28 @@
                                     </tbody>
                                 </table>
                             </div>
-                            </div>
+                        </div>
                         <div class="widget-foot">
                             <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8">
+
+                <div class="col-lg-8">
+                    <div class="widget worange" data-ng-controller="wip as vm">
+                        <div data-cc-widget-header title="{{vm.title}}" subtitle="{{vm.wip.length}}"
+                             allow-collapse="true"></div>
+                        <div class="widget-content" data-ng-include="'/app/wip/wipwidget.html'">
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
                     <div class="widget wgreen">
                         <div data-cc-widget-header title="{{vm.news.title}}"
                              allow-collapse="true"></div>

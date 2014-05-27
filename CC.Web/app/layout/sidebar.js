@@ -4,7 +4,8 @@
 
     var controllerId = 'sidebar';
 
-    angular.module('app').controller(controllerId, ['$route', '$location', 'config', 'routes', 'datacontext', 'bootstrap.dialog', sidebar]);
+    angular.module('app').controller(controllerId,
+        ['$route', '$location', 'config', 'routes', 'datacontext', 'bootstrap.dialog', sidebar]);
 
     function sidebar($route, $location, config, routes, datacontext, bsDialog)
     {
@@ -24,7 +25,7 @@
         {
             getNavRoutes();
 
-            vm.clearStorage = clearStorage;
+            vm.wip = datacontext.zStorageWip.getWipSummary();
         }
 
         function getNavRoutes()
@@ -34,7 +35,7 @@
                 return r.config.settings && r.config.settings.nav;
             }).sort(function(r1, r2)
             {
-                return r1.config.settings.nav - r2.config.settings.nav;
+                return r1.config.settings.nav > r2.config.settings.nav;
             });
         }
 
@@ -69,13 +70,13 @@
 
         function clearStorage()
         {
-            return bsDialog.deleteDialog('Local Storage')
+            return bsDialog.deleteDialog('Local Storage and Work In Progress')
                 .then(confirmDelete, cancelDelete);
 
             function confirmDelete()
             {
                 datacontext.zStorage.clear();
-                
+
             }
 
             function cancelDelete() { }

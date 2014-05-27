@@ -5,9 +5,10 @@
     var controllerId = 'speakerdetail';
 
     angular.module('app').controller(controllerId,
-        ['$scope', '$location', '$window', '$routeParams', 'common', 'config', 'datacontext', 'model', speakerdetail]);
+        ['$scope', '$location', '$window', '$routeParams', 'common', 'config', 'datacontext', 'model', 'helper',
+            speakerdetail]);
 
-    function speakerdetail($scope, $location, $window, $routeParams, common, config, datacontext, model)
+    function speakerdetail($scope, $location, $window, $routeParams, common, config, datacontext, model, helper)
     {
         var vm = this;
 
@@ -90,6 +91,8 @@
 
             removeWipEntity();
 
+            helper.replaceLocationUrlGuidWithId(vm.speaker.id);
+
             if (vm.speaker.entityAspect.entityState.isDetached())
             {
                 goToSpeakers();
@@ -118,6 +121,8 @@
                     vm.isSaving = false;
 
                     removeWipEntity();
+
+                    helper.replaceLocationUrlGuidWithId(vm.speaker.id);
                 },
                 function(error)
                 {

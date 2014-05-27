@@ -102,6 +102,15 @@
                         content: '<i class="fa fa-group"></i> Attendees'
                     }
                 }
+            }, {
+                url: '/workinprogress',
+                config: {
+                    templateUrl: 'app/wip/wip.html',
+                    title: 'workinprogress',
+                    settings: {
+                        content: '<i class="fa fa-asterisk"></i> Work In Progress'
+                    }
+                }
             }
         ];
     }

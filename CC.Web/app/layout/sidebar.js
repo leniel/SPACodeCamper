@@ -10,14 +10,22 @@
     {
         var vm = this;
 
+        vm.clearStorage = clearStorage;
         vm.isCurrent = isCurrent;
+        vm.routes = routes;
         vm.search = search;
         vm.searchText = '';
-        vm.clearStorage = clearStorage;
+        vm.wip = [];
+        vm.wipChangedEvent = config.events.storage.wipChanged;
 
         activate();
 
-        function activate() { getNavRoutes(); }
+        function activate()
+        {
+            getNavRoutes();
+
+            vm.clearStorage = clearStorage;
+        }
 
         function getNavRoutes()
         {

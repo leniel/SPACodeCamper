@@ -167,6 +167,9 @@
     <Content Include="app\speaker\speakerdetail.js" />
     <Content Include="app\speaker\speakers.html" />
     <Content Include="app\speaker\speakers.js" />
+    <Content Include="app\wip\wip.html" />
+    <Content Include="app\wip\wip.js" />
+    <Content Include="app\wip\wipwidget.html" />
     <Content Include="App_Data\.gitignore" />
     <Content Include="content\bootstrap-theme.css" />
     <Content Include="content\bootstrap-theme.min.css">

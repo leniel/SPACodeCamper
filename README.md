@@ -400,4 +400,4 @@ In `content\customtheme.css`, do these changes...
 }
 ```
 
-2.7 - 
+2.7 - On step 10.13, watch out the icon class name for the WIP asterisk indicator in `ccWip` directive inside `app\services\directives.js`. Now the class name is [`fa fa-asterisk`](http://fortawesome.github.io/Font-Awesome/icon/asterisk/) to match the new Font-Awesome naming convention.

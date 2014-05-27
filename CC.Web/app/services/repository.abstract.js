@@ -33,6 +33,7 @@
         };
 
         // Shared by repository classes
+        Ctor.prototype.getEntityByIdOrFromWip = getEntityByIdOrFromWip;
         Ctor.prototype._getAllLocal = _getAllLocal;
         Ctor.prototype._getById = _getById;
         Ctor.prototype._getInlineCount = _getInlineCount;
@@ -45,6 +46,39 @@
         Ctor.prototype._predicates = _predicates;
 
         return Ctor;
+
+        function getEntityByIdOrFromWip(val)
+        {
+            // val can be an ID or a wipKey
+            var wipEntityKey = val;
+
+            if(common.isNumber(val))
+            {
+                val = parseInt(val);
+
+                wipEntityKey = this.zStorageWip.findWipKeyByEntityId(this.entityName, val);
+
+                // Not found...
+                if(!wipEntityKey)
+                {
+                    // Returns a promise with the entity because 
+                    // the entity may be in LocalStorage or remote (async). 
+                    return this._getById(this.entityName, val);
+                }
+            }
+
+            var importedEntity = this.zStorageWip.loadWipEntity(wipEntityKey);
+
+            if(importedEntity)
+            {
+                // Need to re-validate the entity we are re-hydrating
+                importedEntity.entityAspect.validateEntity();
+
+                return $q.when({ entity: importedEntity, key: wipEntityKey });
+            }
+
+            return $q.reject({ error: 'Couldn\'t find entity for WIP key ' + wipEntityKey });
+        }
 
         function _getAllLocal(resource, ordering, predicate)
         {

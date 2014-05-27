@@ -77,14 +77,19 @@
                 return vm.session;
             }
 
-            datacontext.session.getById(val)
+            return datacontext.session.getEntityByIdOrFromWip(val)
                 .then(function(data)
                 {
-                    vm.session = data;
+                    // Will either get back an entity or an {entity:, key:}
+                    wipEntityKey = data.key;
 
-                }, function(error)
+                    vm.session = data.entity || data;
+                },
+                function(error)
                 {
-                    logError('Unable to get Session ' + val);
+                    logError('Unable to get session from WIP ' + val);
+
+                    goToSessions();
                 });
         }
 

@@ -5,13 +5,17 @@
     var controllerId = 'sessiondetail';
 
     angular.module('app').controller(controllerId,
-        ['$location', '$scope', '$window', '$routeParams', 'common', 'config', 'bootstrap.dialog', 'datacontext', sessiondetail]);
+        ['$location', '$scope', '$window', '$routeParams', 'common', 'config', 'bootstrap.dialog', 'datacontext', 'model', sessiondetail]);
 
-    function sessiondetail($location, $scope, $window, $routeParams, common, config, bsDialog, datacontext)
+    function sessiondetail($location, $scope, $window, $routeParams, common, config, bsDialog, datacontext, model)
     {
         var vm = this;
 
         var logError = common.logger.getLogFn(controllerId, 'error');
+
+        var entityName = model.entityNames.session;
+
+        var wipEntityKey = undefined;
 
         vm.session = undefined;
         vm.speakers = [];
@@ -54,7 +58,7 @@
 
             initLookups();
 
-            common.activateController([getRequestedSession()], controllerId);
+            common.activateController([getRequestedSession()], controllerId).then(onEveryChange());
         }
 
         function getTitle()
@@ -152,8 +156,9 @@
         function onDestroy()
         {
             $scope.$on('$destroy', function()
-            {
-                datacontext.cancel();
+                {
+                    autoStoreWip(true);
+                    datacontext.cancel();
             });
         }
 
@@ -166,6 +171,15 @@
                 });
         }
 
+        function onEveryChange()
+        {
+            $scope.$on(config.events.entitiesChanged,
+                function(event, data)
+                {
+                    autoStoreWip();
+                });
+        }
+
         function initLookups()
         {
             var lookups = datacontext.lookup.lookupCachedData;
@@ -175,6 +189,24 @@
             vm.timeslots = lookups.timeslots;
 
             vm.speakers = datacontext.speaker.getAllLocal(true);
+        }
+
+        function autoStoreWip(immediate)
+        {
+            common.debouncedThrottle(controllerId, storeWipEntity, 1000, immediate);
+        }
+
+
+        function storeWipEntity()
+        {
+            if (!vm.session)
+            {
+                return;
+            }
+
+            var description = vm.session.title || '[New Session]' + vm.session.id;
+
+            wipEntityKey = datacontext.zStorageWip.storeWipEntity(vm.session, wipEntityKey, entityName, description);
         }
     }
 })();

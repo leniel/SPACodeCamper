@@ -38,6 +38,7 @@
         controllerActivateSuccess: 'controller.activateSuccess',
         spinnerToggle: 'spinner.toggle',
         hasChangesChanged: 'datacontext.hasChangesChanged',
+        entitiesChanged: 'datacontext.entitiesChanged',
         storage: {
             error: 'store.error',
             storeChanged: 'store.changed',
@@ -76,7 +77,7 @@
     {
         cfg.config = {
             // zStorage
-            enabled: true,
+            enabled: false,
             key: 'CodeCamperAngularBreeze',
             events: events.storage,
             appErrorPrefix: config.appErrorPrefix,

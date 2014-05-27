@@ -4,9 +4,9 @@
 
     var serviceId = 'repository.speaker';
 
-    angular.module('app').factory(serviceId, ['model', 'repository.abstract', 'zStorage', RepositorySpeaker]);
+    angular.module('app').factory(serviceId, ['model', 'repository.abstract', 'zStorage', 'zStorageWip', RepositorySpeaker]);
 
-    function RepositorySpeaker(model, AbstractRepository, zStorage)
+    function RepositorySpeaker(model, AbstractRepository, zStorage, zStorageWip)
     {
         var entityName = model.entityNames.speaker;
         var EntityQuery = breeze.EntityQuery;
@@ -26,6 +26,7 @@
             this.create = create;
             this.calcIsSpeaker = calcIsSpeaker;
             this.zStorage = zStorage;
+            this.zStorageWip = zStorageWip;
         }
 
         AbstractRepository.extend(Ctor);

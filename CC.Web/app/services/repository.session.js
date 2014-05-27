@@ -4,9 +4,9 @@
 
     var serviceId = 'repository.session';
 
-    angular.module('app').factory(serviceId, ['model', 'repository.abstract', 'zStorage', RepositorySession]);
+    angular.module('app').factory(serviceId, ['model', 'repository.abstract', 'zStorage', 'zStorageWip', RepositorySession]);
 
-    function RepositorySession(model, AbstractRepository, zStorage)
+    function RepositorySession(model, AbstractRepository, zStorage, zStorageWip)
     {
         var entityName = model.entityNames.session;
         var EntityQuery = breeze.EntityQuery;
@@ -24,6 +24,7 @@
             this.getById = getById;
             this.create = create;
             this.zStorage = zStorage;
+            this.zStorageWip = zStorageWip;
         }
 
         AbstractRepository.extend(Ctor);
